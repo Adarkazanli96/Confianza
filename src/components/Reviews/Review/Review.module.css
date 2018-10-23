@@ -1,0 +1,41 @@
+.review {
+    width: 500px;
+    margin: auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 16px;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 10pt
+}
+
+
+.comment {
+    font-size: 10pt;
+}
+
+.comment-likes-number{
+    font-weight : bold;
+    font-size: 10pt;
+}
+
+.comment-dislikes-number{
+    padding-left: 10px;
+    font-weight : bold;
+    font-size: 10pt;
+}
+
+.comment-likes-button{
+    width: 15px;
+    height: auto;
+    padding-left: 4px;
+
+}
+
+.comment-dislikes-button{
+    width: 15px;
+    height: auto;
+    padding-left: 4px;
+}
