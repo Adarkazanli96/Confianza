@@ -1,0 +1,23 @@
+.write-new-review-button{
+    display: block;
+    margin: auto;
+
+    color:#2f3640;
+    font-family: "proxima nova";
+    font-weight: 100;
+    font-size: 15pt;
+    text-align: center;
+
+    border: solid 2px #2f3640;
+    border-radius: 50px;
+    padding: 3px 10px;
+
+    background-color:  #F9D288;
+
+    transition-duration: 200ms;
+}
+
+.write-new-review-button:hover{
+    background-color: #2f3640;
+    color: #F9D288;
+}

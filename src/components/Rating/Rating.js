@@ -4,7 +4,7 @@ import styles from './Rating.module.css'
 const rating = (props) => {
     return (
         <h3 className = {styles['text']}>
-            Rating (1-5)
+            Display Rating (1-5)
         </h3>
     );
 }

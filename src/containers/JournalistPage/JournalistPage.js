@@ -4,32 +4,57 @@ import JournalistIcon from '../../components/JournalistIcon/JournalistIcon'
 import Rating from '../../components/Rating/Rating'
 import Reviews from '../../components/Reviews/Reviews'
 import SearchBar from '../../components/SearchBar/SearchBar'
+import styles from './JournalistPage.module.css'
+import Modal from '../../components/Modal/Modal'
+import NewReview from '../../components/NewReview/NewReview'
 
-
-class JournalistPage extends Component{
+class JournalistPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
             reviews: [
-                { id: "kjsf", username: 'Chocolate Thunder'},
-                { id: "klsd", username: '420 Blz It'},
-                { id: "ksjf", username: 'Dwayne The Rock Johnson'}
-            ]
+                { id: "kjsf", username: 'Chocolate Thunder' },
+                { id: "klsd", username: '420 Blz It' },
+                { id: "ksjf", username: 'Dwayne The Rock Johnson' }
+            ],
+
+            writingReview: false
         }
     }
-    
 
-render(){
-    
-    return (
-        <div>
-            <Logo />
-            <SearchBar/>
-            <JournalistIcon />
-            <Rating />
-            <Reviews reviews = {this.state.reviews}/>
-        </div>
-    );}
+    writeReviewHandler = () => {
+        this.setState({ writingReview: true })
+    }
+
+    cancelReviewHandler = () => {
+        this.setState({ writingReview: false })
+    }
+
+    render() {
+
+        return (
+            <div>
+                <Modal
+                    show={this.state.writingReview}
+                    modalClosed={this.cancelReviewHandler}>
+                    <NewReview
+                        reviewCancelled={this.cancelReviewHandler} />
+                </Modal>
+                <Logo />
+                <SearchBar />
+                <JournalistIcon />
+                <Rating />
+                <Reviews reviews={this.state.reviews} />
+
+                <button
+                    className={styles['write-new-review-button']}
+                    onClick={this.writeReviewHandler}>
+                    WRITE REVIEW
+            </button>
+
+            </div>
+        );
+    }
 }
 
 export default JournalistPage;
