@@ -1,11 +1,12 @@
 import React from 'react'
+import four from '../../assets/images/stars/4.png'
 import styles from './Rating.module.css'
 
 const rating = (props) => {
     return (
-        <h3 className = {styles['text']}>
-            Display Rating (1-5)
-        </h3>
+        <div>
+            <img src = {four} className = {styles['stars']}/>
+        </div>
     );
 }
 

@@ -4,6 +4,7 @@ import JournalistIcon from '../../components/JournalistIcon/JournalistIcon'
 import Rating from '../../components/Rating/Rating'
 import Reviews from '../../components/Reviews/Reviews'
 import SearchBar from '../../components/SearchBar/SearchBar'
+import Toolbar from '../../components/Toolbar/Toolbar'
 import styles from './JournalistPage.module.css'
 import Modal from '../../components/Modal/Modal'
 import NewReview from '../../components/NewReview/NewReview'
@@ -13,9 +14,9 @@ class JournalistPage extends Component {
         super(props)
         this.state = {
             reviews: [
-                { id: "kjsf", username: 'Chocolate Thunder' },
-                { id: "klsd", username: '420 Blz It' },
-                { id: "ksjf", username: 'Dwayne The Rock Johnson' }
+                { id: "kjsf", headline: 'Lorem ipsum dolor sit amet' },
+                { id: "klsd", headline: 'Lorem ipsum dolor sit amet' },
+                { id: "ksjf", headline: 'Lorem ipsum dolor sit amet' }
             ],
 
             writingReview: false
@@ -40,8 +41,9 @@ class JournalistPage extends Component {
                     <NewReview
                         reviewCancelled={this.cancelReviewHandler} />
                 </Modal>
-                <Logo />
-                <SearchBar />
+                {/*<Logo />
+                <SearchBar />*/}
+                <Toolbar/>
                 <JournalistIcon />
                 <Rating />
                 <Reviews reviews={this.state.reviews} />
