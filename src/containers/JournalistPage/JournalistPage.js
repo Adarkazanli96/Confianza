@@ -4,7 +4,7 @@ import JournalistIcon from '../../components/JournalistIcon/JournalistIcon'
 import Rating from '../../components/Rating/Rating'
 import Reviews from '../../components/Reviews/Reviews'
 import SearchBar from '../../components/SearchBar/SearchBar'
-import Toolbar from '../../components/Toolbar/Toolbar'
+import Navbar from '../../components/Navbar/Navbar'
 import styles from './JournalistPage.module.css'
 import Modal from '../../components/Modal/Modal'
 import NewReview from '../../components/NewReview/NewReview'
@@ -41,7 +41,7 @@ class JournalistPage extends Component {
                     <NewReview
                         reviewCancelled={this.cancelReviewHandler} />
                 </Modal>
-                <Toolbar/>
+                <Navbar/>
                 <JournalistIcon />
                 <Rating />
                 <Reviews reviews={this.state.reviews} />

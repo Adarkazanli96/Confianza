@@ -31,7 +31,7 @@ class HomePage extends Component {
         <img className = {styles['search-icon']} src={searchIcon} alt="S"/>
         </a>
         </div>
-                <div className = {styles['quote']}>"Fuck bitches, get money."</div>
+                <div className = {styles['quote']}>"Get the truth and print it."</div>
                 
             </div>
         );

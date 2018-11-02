@@ -1,10 +1,10 @@
 import React from 'react'
 import Logo from '../Logo/Logo'
 import SearchBar from '../SearchBar/SearchBar'
-import styles from './Toolbar.module.css'
+import styles from './Navbar.module.css'
 
-const toolbar = (props) => (
-    <header className={styles['toolbar']}>
+const navbar = (props) => (
+    <header className={styles['navbar']}>
         <Logo style = 'small'/>
         <span className={styles['confianza-text']}>Confianza</span>
         <SearchBar />
@@ -16,4 +16,4 @@ const toolbar = (props) => (
     </header>
 );
 
-export default toolbar
+export default navbar
