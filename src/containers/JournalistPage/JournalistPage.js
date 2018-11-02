@@ -41,8 +41,6 @@ class JournalistPage extends Component {
                     <NewReview
                         reviewCancelled={this.cancelReviewHandler} />
                 </Modal>
-                {/*<Logo />
-                <SearchBar />*/}
                 <Toolbar/>
                 <JournalistIcon />
                 <Rating />

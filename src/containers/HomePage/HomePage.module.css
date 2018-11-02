@@ -1,0 +1,110 @@
+.login-and-signup{
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    width: 100%;
+    top: 10px;
+}
+
+.confianza-text{
+    font-weight: bold;
+    position: relative;
+    top: -90px;
+    font-size: 24pt;
+    padding-left: 12px;
+    font-family:courier, courier new, serif;
+    margin-left: 46%;
+}
+
+.login{
+    color: #2f3640;
+    border: none;
+    font-weight: bold;
+    font-size: 12pt;
+    text-align: center;
+    background-color: transparent;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.login:hover{
+    border-bottom: 3px solid #2f3640;
+}
+
+.signup{
+    margin-left: 20px;
+    color: #2f3640;
+    border: solid 2px #2f3640;
+    font-weight: bold;
+    font-size: 12pt;
+    text-align: center;
+    background-color: transparent;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 8px;
+}
+.signup:hover{
+    background-color: #2f3640;
+    color: white;
+}
+
+.quote{
+    font-family: URW Chancery L, cursive;
+    font-size: 20pt;
+    font-style: oblique;
+    margin-left: 39%;
+    top: 40px;
+}
+
+.searchbar{
+    position: relative;
+    margin-left: 39%;
+    background-color: black;
+    width: 300px;
+}
+
+.search-bar {
+    position: relative;
+    margin-left: 39%;
+    background: #2f3640;
+    height: 30px;
+    border-radius: 40px;
+    padding: 10px;
+    width: 300px;
+}
+
+.search-bar:hover > .search-btn{
+    background: white;
+}
+
+.search-btn{
+    color: white;
+    float: right;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #2f3640;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-txt{
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    line-height: 28px;
+
+
+}
+
+.search-icon{
+    height: 25px;
+    width: auto;
+}

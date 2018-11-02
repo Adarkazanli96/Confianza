@@ -1,6 +1,14 @@
-.top-of-page {
+.small {
     width: 40px;
     height: auto;
     margin-left: 18%;
     margin-top: 5px;
+}
+
+.large {
+    width: 120px;
+    height: auto;
+    display: block;
+    margin-left: 40%;
+    margin-top: 110px;
 }

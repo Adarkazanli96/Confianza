@@ -5,7 +5,7 @@ import styles from './Toolbar.module.css'
 
 const toolbar = (props) => (
     <header className={styles['toolbar']}>
-        <Logo />
+        <Logo style = 'small'/>
         <span className={styles['confianza-text']}>Confianza</span>
         <SearchBar />
         <span className={styles['login-and-signup']}>
