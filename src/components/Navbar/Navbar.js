@@ -6,7 +6,6 @@ import styles from './Navbar.module.css'
 const navbar = (props) => (
     <header className={styles['navbar']}>
         <Logo style = 'small'/>
-        <span className={styles['confianza-text']}>Confianza</span>
         <SearchBar />
         <span className={styles['login-and-signup']}>
             <button className={styles['login']}>Log In</button>   

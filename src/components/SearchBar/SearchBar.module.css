@@ -9,15 +9,6 @@
     padding: 10px;
 }
 
-.search-bar:hover > .search-txt{
-    width: 240px;
-    padding: 0 6px
-}
-
-.search-bar:hover > .search-btn{
-    background: white;
-}
-
 .search-btn{
     color: white;
     float: right;
@@ -49,4 +40,24 @@
 .search-icon{
     height: 23px;
     width: auto;
+}
+
+.search-bar:hover > .search-txt{
+    width: 240px;
+    padding: 0 6px;
+}
+
+.search-btn:hover > .search-txt{
+    width: 240px;
+    padding: 0 6px;
+}
+
+.search-icon:hover > .search-txt{
+    width: 240px;
+    padding: 0 6px;
+}
+
+.search-txt:hover{
+    width: 240px;
+    padding: 0 6px;
 }

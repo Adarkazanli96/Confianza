@@ -3,8 +3,7 @@
     z-index: 500;
     background-color: white;
     width: 70%;
-    border: 1px solid #ccc;
-    box-shadow: 1px 1px 1px black;
+    box-shadow: 1px 15px 15px rgba(0, 0, 0, 0.5);
     padding: 16px;
     left: 15%;
     top: 25%;

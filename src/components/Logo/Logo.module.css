@@ -1,14 +1,14 @@
 .small {
-    width: 40px;
+    width: 100px;
     height: auto;
     margin-left: 18%;
     margin-top: 5px;
 }
 
 .large {
-    width: 120px;
-    height: auto;
+    width: 500px;
     display: block;
-    margin-left: 40%;
-    margin-top: 110px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 180px;
 }
