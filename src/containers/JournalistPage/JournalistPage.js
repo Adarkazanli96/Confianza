@@ -21,9 +21,9 @@ class JournalistPage extends Component {
             ],
 
             /*review: {*/
-                comment: "comment",
-                id: "lksj",
-                headline: " ",
+                comment: "",
+                id: 0,
+                headline: "",
             /*},*/
 
             writingReview: false
@@ -39,7 +39,7 @@ class JournalistPage extends Component {
     }
 
     setCommentHandler = (event) => {
-        
+        this.setState({comment: event.target.value})
     }
 
     setHeadlineHandler = (event) => {
@@ -49,10 +49,13 @@ class JournalistPage extends Component {
     submitReviewHandler = () =>{
         
         const review = {
-             comment: this.state.comment,
              id: this.state.id,
-             headline: this.state.headline
+             headline: this.state.headline,
+             comment: this.state.comment
         }
+
+        //clear the headline and comment fields
+        this.setState({comment: "", headline:''})
 
         axios.post('reviews.json', review)
         .then(response => console.log(response))
@@ -69,8 +72,10 @@ class JournalistPage extends Component {
                     <NewReview
                         reviewCancelled={this.cancelReviewHandler}
                         reviewSubmitted = {this.submitReviewHandler}
-                        handleChange = {(event) => this.setHeadlineHandler(event)}
-                        value = {this.state.headline} />
+                        headlineChange = {(event) => this.setHeadlineHandler(event)}
+                        headlineValue = {this.state.headline}
+                        commentChange = {(event) => this.setCommentHandler(event)}
+                        commentValue = {this.state.comment}/>
                 </Modal>
                 <Navbar/>
                 <JournalistIcon />

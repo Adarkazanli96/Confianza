@@ -12,16 +12,27 @@ const newReview = (props) => {
             <img src={zero} className={styles['stars']} />
             <p>Add a headline</p>
             <input
-            className={styles['headline']}
-            placeholder="What's most important to know?"
-            value = {props.value}
-            onChange = {props.handleChange}/>
+            id = "myinput"
+                className={styles['headline']}
+                placeholder="What's most important to know?"
+                value={props.headlineValue}
+                onChange={props.headlineChange} />
+
             <p>Write your review</p>
-            <textarea rows="10" cols="74" className={styles['text-box']} placeholder="What's on your mind?" />
+
+            <textarea
+                rows="10" cols="74"
+                className={styles['text-box']}
+                placeholder="What's on your mind?"
+                value={props.commentValue}
+                onChange={props.commentChange} />
+
             <button
-            className={styles['submit-button']}
-            onClick = {props.reviewSubmitted}
-            >Submit</button>
+                className={styles['submit-button']}
+                onClick = {(event) => {props.reviewSubmitted(); props.reviewCancelled();}}
+
+            >Submit
+            </button>
         </Aux>
     );
 }
