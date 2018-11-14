@@ -14,56 +14,81 @@ class JournalistPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            reviews: [
-                { id: "kjsf", headline: 'Lorem ipsum dolor sit amet' },
-                { id: "klsd", headline: 'Lorem ipsum dolor sit amet' },
-                { id: "ksjf", headline: 'Lorem ipsum dolor sit amet' }
-            ],
 
-            /*review: {*/
+            // arraylist of existing reviews
+            reviews: [],
+
+            // object for posting a new review
+            newReview: {
                 comment: "",
-                id: 0,
                 headline: "",
-            /*},*/
+            },
 
-            writingReview: false
+            //indicates whether a new review is in the process of being written
+            writingReview: false,
+
+            theResponse: ""
         }
     }
 
+    // new review is being written
     writeReviewHandler = () => {
         this.setState({ writingReview: true })
     }
 
+    // cancel the new review
     cancelReviewHandler = () => {
         this.setState({ writingReview: false })
+
+        //clear the headline and comment fields for the new review
+        let r = Object.assign({}, this.state.newReview);    //creating copy of object
+        r.comment = "";
+        r.headline = "";
+        this.setState({ newReview: r })
     }
 
+    // set the value of the new comment to comment input field
     setCommentHandler = (event) => {
-        this.setState({comment: event.target.value})
+        let r = Object.assign({}, this.state.newReview);    //creating copy of object
+        r.comment = event.target.value;                        //updating value
+        this.setState({ newReview: r });
     }
 
+    // set the value of the new headline to headline input field
     setHeadlineHandler = (event) => {
-        this.setState({headline: event.target.value})
+        let r = Object.assign({}, this.state.newReview);    //creating copy of object
+        r.headline = event.target.value;                        //updating value
+        this.setState({ newReview: r });
     }
 
-    submitReviewHandler = () =>{
-        
+    // posts new review to database
+    submitReviewHandler = () => {
+
         const review = {
-             id: this.state.id,
-             headline: this.state.headline,
-             comment: this.state.comment
+            id: this.state.newReview.id,
+            headline: this.state.newReview.headline,
+            comment: this.state.newReview.comment
         }
 
-        //clear the headline and comment fields
-        this.setState({comment: "", headline:''})
-
         axios.post('reviews.json', review)
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
     }
 
-    render() {
+    // retrieves arraylist of reviews from database
+    componentDidMount() {
+        axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
+            .then(response => {
+                this.setState({ reviews: Object.values(response.data) });
+            })
+    }
 
+
+    render() {
+        
+        /*const { reviews } = this.state
+    console.log(reviews)*/
+        
         return (
             <div>
                 <Modal
@@ -71,13 +96,13 @@ class JournalistPage extends Component {
                     modalClosed={this.cancelReviewHandler}>
                     <NewReview
                         reviewCancelled={this.cancelReviewHandler}
-                        reviewSubmitted = {this.submitReviewHandler}
-                        headlineChange = {(event) => this.setHeadlineHandler(event)}
-                        headlineValue = {this.state.headline}
-                        commentChange = {(event) => this.setCommentHandler(event)}
-                        commentValue = {this.state.comment}/>
+                        reviewSubmitted={this.submitReviewHandler}
+                        headlineChange={(event) => this.setHeadlineHandler(event)}
+                        headlineValue={this.state.newReview.headline}
+                        commentChange={(event) => this.setCommentHandler(event)}
+                        commentValue={this.state.newReview.comment} />
                 </Modal>
-                <Navbar/>
+                <Navbar />
                 <JournalistIcon />
                 <Rating />
                 <Reviews reviews={this.state.reviews} />
@@ -86,7 +111,11 @@ class JournalistPage extends Component {
                     className={styles['write-new-review-button']}
                     onClick={this.writeReviewHandler}>
                     WRITE REVIEW
-            </button>
+                </button>
+
+                {/*
+                    reviews.map(item => <div>{item.comment}</div>)
+                }*/}
 
             </div>
         );

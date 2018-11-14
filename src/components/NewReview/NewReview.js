@@ -11,8 +11,9 @@ const newReview = (props) => {
             <p>Overall rating</p>
             <img src={zero} className={styles['stars']} />
             <p>Add a headline</p>
+
             <input
-            id = "myinput"
+                id="myinput"
                 className={styles['headline']}
                 placeholder="What's most important to know?"
                 value={props.headlineValue}
@@ -29,7 +30,7 @@ const newReview = (props) => {
 
             <button
                 className={styles['submit-button']}
-                onClick = {(event) => {props.reviewSubmitted(); props.reviewCancelled();}}
+                onClick={(event) => { props.reviewSubmitted(); props.reviewCancelled(); }}
 
             >Submit
             </button>

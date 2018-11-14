@@ -6,6 +6,7 @@ const reviews = (props) => {
     return props.reviews.map((review, index) => {
         return <Review
             headline ={review.headline}
+            comment = {review.comment}
             key={review.id}
         />
     }

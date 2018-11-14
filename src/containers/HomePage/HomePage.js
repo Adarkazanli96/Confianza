@@ -19,18 +19,17 @@ class HomePage extends Component {
                     <button className={styles['login']}>Log In</button>
                     <button className={styles['signup']}>Sign Up</button>
                 </span>
-                <Logo style = 'large'/>
-                {/*<input className = {styles['searchbar']}/>*}
-                {/*<button onClick={this.props.clicked}>
-                    search
-        </button>*/}
-        <div className = {styles['search-bar']}>
-        <input className = {styles['search-txt']} type = "text" name = "" placeholder = "Type a name"/>
-        <a className = {styles['search-btn']} onClick={this.props.clicked}>
-          <img className = {styles['search-icon']} src={searchIcon} alt="S"/>
-        </a>
-        </div>
-                <div className = {styles['quote']}>"You can't handle the truth."</div>
+                
+                <Logo style='large' />
+                
+                <div className={styles['search-bar']}>
+                    <input className={styles['search-txt']} type="text" name="" placeholder="Type a name" />
+                    <a className={styles['search-btn']} onClick={this.props.clicked}>
+                        <img className={styles['search-icon']} src={searchIcon} alt="S" />
+                    </a>
+                </div>
+                
+                <div className={styles['quote']}>"You can't handle the truth."</div>
 
             </div>
         );

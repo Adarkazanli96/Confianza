@@ -8,21 +8,21 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        homepage:true
+      homepage: true
     }
-}
+  }
 
-//handler for switching from homepage to journalist page
-switchPageHandler = () => {
+  //handler for switching from homepage to journalist page
+  switchPageHandler = () => {
     this.setState({ homepage: false })
-}
-  
+  }
+
   render() {
 
-    let page = <HomePage clicked = {this.switchPageHandler}/>;
+    let page = <HomePage clicked={this.switchPageHandler} />;
 
     if (!this.state.homepage) {
-      page = <JournalistPage/>
+      page = <JournalistPage />
     }
 
     return (
