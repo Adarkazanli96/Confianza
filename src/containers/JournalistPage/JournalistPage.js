@@ -62,17 +62,21 @@ class JournalistPage extends Component {
     }
 
     // posts new review to database
-    submitReviewHandler = () => {
+    submitReviewHandler = async () => {
 
         const review = {
-            id: this.state.newReview.id,
             headline: this.state.newReview.headline,
             comment: this.state.newReview.comment
         }
 
-        axios.post('reviews.json', review)
+        await axios.post('reviews.json', review)
             .then(response => console.log(response))
             .catch(error => console.log(error));
+        
+        axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
+            .then(response => {
+                this.setState({ reviews: Object.values(response.data) });
+            })
     }
 
     // retrieves arraylist of reviews from database
