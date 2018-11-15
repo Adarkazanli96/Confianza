@@ -66,3 +66,9 @@
     color: rgb(179, 178, 178);
 }
 
+.overall-rating-text{
+    position: relative;
+    top: 15px;
+
+}
+

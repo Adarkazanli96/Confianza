@@ -7,7 +7,7 @@ const reviews = (props) => {
         return <Review
             headline ={review.headline}
             comment = {review.comment}
-            key={review.id}
+            rating = {review.rating}
         />
     }
     );

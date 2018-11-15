@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux/Aux'
 import zero from '../../assets/images/stars/0.png'
 import styles from './NewReview.module.css'
+import StarRatingComponent from 'react-star-rating-component';
 
 const newReview = (props) => {
     return (
         <Aux>
             <button className={styles['close-window-button']} onClick={props.reviewCancelled}>X</button>
             <h3 className={styles['header']}>Create Review</h3>
-            <p>Overall rating</p>
-            <img src={zero} className={styles['stars']} />
+            <p className = {styles['overall-rating-text']}>Overall rating</p>
+            
+            {props.children}
+
+            {/*<img src={zero} className={styles['stars']} />*/}
+
             <p>Add a headline</p>
 
             <input

@@ -8,6 +8,7 @@ import Navbar from '../../components/Navbar/Navbar'
 import styles from './JournalistPage.module.css'
 import Modal from '../../components/Modal/Modal'
 import NewReview from '../../components/NewReview/NewReview'
+import StarRatingComponent from 'react-star-rating-component';
 import axios from '../../axios-orders'
 
 class JournalistPage extends Component {
@@ -22,12 +23,51 @@ class JournalistPage extends Component {
             newReview: {
                 comment: "",
                 headline: "",
+                rating: 0
             },
+
+            starHover: true,
 
             //indicates whether a new review is in the process of being written
             writingReview: false,
 
             theResponse: ""
+        }
+    }
+
+    onStarClick(nextValue, prevValue, name) {
+        //this.setState({ rating: nextValue, starHover: false });
+
+        this.setState({
+            newReview: {
+                ...this.state.newReview,
+                rating: nextValue
+            },
+            starHover: false
+        })
+    }
+
+    onStarHover(nextValue, prevValue, name) {
+        if (this.state.starHover == true){
+            //this.setState({ rating: nextValue });
+            this.setState({
+                newReview: {
+                    ...this.state.newReview,
+                    rating: nextValue
+                },
+            })
+        }
+    }
+
+    onStarHoverOut(nextValue, prevValue, name) {
+        if (this.state.starHover == true) {
+            //this.setState({ rating: 0 });
+            this.setState({
+                newReview: {
+                    ...this.state.newReview,
+                    rating: 0
+                },
+            })
         }
     }
 
@@ -41,45 +81,72 @@ class JournalistPage extends Component {
         this.setState({ writingReview: false })
 
         //clear the headline and comment fields for the new review
-        let r = Object.assign({}, this.state.newReview);    //creating copy of object
+        this.setState({
+            newReview: {
+                ...this.state.newReview,
+                comment: "",
+                headline: "",
+                rating: 0
+            },
+            starHover: true
+        })
+
+        /*let r = Object.assign({}, this.state.newReview);    //creating copy of object
         r.comment = "";
         r.headline = "";
-        this.setState({ newReview: r })
+        this.setState({ newReview: r })*/
     }
 
     // set the value of the new comment to comment input field
     setCommentHandler = (event) => {
-        let r = Object.assign({}, this.state.newReview);    //creating copy of object
+        this.setState({
+            newReview: {
+                ...this.state.newReview,
+                comment: event.target.value,
+            }
+        })
+
+        /*let r = Object.assign({}, this.state.newReview);    //creating copy of object
         r.comment = event.target.value;                        //updating value
-        this.setState({ newReview: r });
+        this.setState({ newReview: r });*/
     }
 
     // set the value of the new headline to headline input field
     setHeadlineHandler = (event) => {
-        let r = Object.assign({}, this.state.newReview);    //creating copy of object
+        this.setState({
+            newReview: {
+                ...this.state.newReview,
+                headline: event.target.value,
+            }
+        })
+
+        /*let r = Object.assign({}, this.state.newReview);    //creating copy of object
         r.headline = event.target.value;                        //updating value
-        this.setState({ newReview: r });
+        this.setState({ newReview: r });*/
     }
 
-    // posts new review to database
+    // posts new review to database and updates view
     submitReviewHandler = async () => {
 
         const review = {
+            rating: this.state.newReview.rating,
             headline: this.state.newReview.headline,
             comment: this.state.newReview.comment
         }
 
+        // post new review to database
         await axios.post('reviews.json', review)
             .then(response => console.log(response))
             .catch(error => console.log(error));
-        
+
+        // get data from database to update view
         axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
             .then(response => {
                 this.setState({ reviews: Object.values(response.data) });
             })
     }
 
-    // retrieves arraylist of reviews from database
+    // retrieves arraylist of reviews from database as soon as component mounts
     componentDidMount() {
         axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
             .then(response => {
@@ -89,10 +156,10 @@ class JournalistPage extends Component {
 
 
     render() {
-        
+
         /*const { reviews } = this.state
     console.log(reviews)*/
-        
+
         return (
             <div>
                 <Modal
@@ -104,11 +171,25 @@ class JournalistPage extends Component {
                         headlineChange={(event) => this.setHeadlineHandler(event)}
                         headlineValue={this.state.newReview.headline}
                         commentChange={(event) => this.setCommentHandler(event)}
-                        commentValue={this.state.newReview.comment} />
+                        commentValue={this.state.newReview.comment}>
+                        <StarRatingComponent
+                        className = {styles['star']}
+                            name="rate"
+                            starCount={5}
+                            value={this.state.newReview.rating}
+                            onStarClick={this.onStarClick.bind(this)}
+                            onStarHover={this.onStarHover.bind(this)}
+                            onStarHoverOut={this.onStarHoverOut.bind(this)}
+                            emptyStarColor={"#808080"}
+                            renderStarIcon={() => <span>⭑</span>}
+                        />
+
+                    </NewReview>
                 </Modal>
                 <Navbar />
                 <JournalistIcon />
                 <Rating />
+
                 <Reviews reviews={this.state.reviews} />
 
                 <button
