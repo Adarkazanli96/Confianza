@@ -78,8 +78,8 @@ class JournalistPage extends Component {
         this.setState({ writingReview: true })
     }
 
-    // cancel the new review
-    cancelReviewHandler = () => {
+    // close the new review popup
+    closeReviewHandler = () => {
         this.setState({ writingReview: false })
 
         //clear the headline and comment fields for the new review
@@ -136,19 +136,25 @@ class JournalistPage extends Component {
             comment: this.state.newReview.comment
         }
 
-        // post new review to database
-        await axios.post('reviews.json', review)
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+        // fields cannot be empty
+        if (review.rating != 0 && review.headline != "" && review.comment != "") {
+            // post new review to database
+            await axios.post('reviews.json', review)
+                .then(response => console.log(response))
+                .catch(error => console.log(error));
 
-        // get data from database to update view
-        axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
-            .then(response => {
-                this.setState({ reviews: Object.values(response.data) });
-                this.calculateAverageRating();
-            })
+            // get data from database to update view
+            axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
+                .then(response => {
+                    this.setState({ reviews: Object.values(response.data) });
+                    this.calculateAverageRating();
+                })
 
-       
+            // close the popup
+            this.closeReviewHandler();
+        }
+
+
     }
 
     calculateAverageRating = () => {
@@ -163,7 +169,7 @@ class JournalistPage extends Component {
 
         let average = sum / counter;
 
-        this.setState({averageRating: average});
+        this.setState({ averageRating: average });
     }
 
     // retrieves arraylist of reviews from database as soon as component mounts
@@ -174,7 +180,7 @@ class JournalistPage extends Component {
                 this.calculateAverageRating();
             })
 
-            
+
     }
 
 
@@ -187,9 +193,9 @@ class JournalistPage extends Component {
             <div>
                 <Modal
                     show={this.state.writingReview}
-                    modalClosed={this.cancelReviewHandler}>
+                    modalClosed={this.closeReviewHandler}>
                     <NewReview
-                        reviewCancelled={this.cancelReviewHandler}
+                        closeReview={this.closeReviewHandler}
                         reviewSubmitted={this.submitReviewHandler}
                         headlineChange={(event) => this.setHeadlineHandler(event)}
                         headlineValue={this.state.newReview.headline}
@@ -211,7 +217,7 @@ class JournalistPage extends Component {
                 </Modal>
                 <Navbar />
                 <JournalistIcon />
-                <Rating rating = {this.state.averageRating}/>
+                <Rating rating={this.state.averageRating} />
 
                 <Reviews reviews={this.state.reviews} />
 

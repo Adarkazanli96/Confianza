@@ -7,7 +7,7 @@ import StarRatingComponent from 'react-star-rating-component';
 const newReview = (props) => {
     return (
         <Aux>
-            <button className={styles['close-window-button']} onClick={props.reviewCancelled}>X</button>
+            <button className={styles['close-window-button']} onClick={props.closeReview}>X</button>
             <h3 className={styles['header']}>Create Review</h3>
             <p className = {styles['overall-rating-text']}>Overall rating</p>
             
@@ -35,7 +35,7 @@ const newReview = (props) => {
 
             <button
                 className={styles['submit-button']}
-                onClick={(event) => { props.reviewSubmitted(); props.reviewCancelled(); }}
+                onClick={(event) => { props.reviewSubmitted();}}
 
             >Submit
             </button>
