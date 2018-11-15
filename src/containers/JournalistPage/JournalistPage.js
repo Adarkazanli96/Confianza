@@ -31,7 +31,9 @@ class JournalistPage extends Component {
             //indicates whether a new review is in the process of being written
             writingReview: false,
 
-            theResponse: ""
+            theResponse: "",
+
+            averageRating: 0
         }
     }
 
@@ -48,7 +50,7 @@ class JournalistPage extends Component {
     }
 
     onStarHover(nextValue, prevValue, name) {
-        if (this.state.starHover == true){
+        if (this.state.starHover == true) {
             //this.setState({ rating: nextValue });
             this.setState({
                 newReview: {
@@ -143,15 +145,36 @@ class JournalistPage extends Component {
         axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
             .then(response => {
                 this.setState({ reviews: Object.values(response.data) });
+                this.calculateAverageRating();
             })
+
+       
+    }
+
+    calculateAverageRating = () => {
+        let sum = 0;
+        let counter = 0;
+
+        let ratings = this.state.reviews.map(review => review.rating);
+        for (var i = 0; i < ratings.length; i++) {
+            sum += ratings[i];
+            counter++
+        }
+
+        let average = sum / counter;
+
+        this.setState({averageRating: average});
     }
 
     // retrieves arraylist of reviews from database as soon as component mounts
     componentDidMount() {
         axios.get('https://confianza-f74d4.firebaseio.com/reviews.json')
             .then(response => {
-                this.setState({ reviews: Object.values(response.data) });
+                this.setState({ reviews: Object.values(response.data) })
+                this.calculateAverageRating();
             })
+
+            
     }
 
 
@@ -173,7 +196,7 @@ class JournalistPage extends Component {
                         commentChange={(event) => this.setCommentHandler(event)}
                         commentValue={this.state.newReview.comment}>
                         <StarRatingComponent
-                        className = {styles['star']}
+                            className={styles['star']}
                             name="rate"
                             starCount={5}
                             value={this.state.newReview.rating}
@@ -188,7 +211,7 @@ class JournalistPage extends Component {
                 </Modal>
                 <Navbar />
                 <JournalistIcon />
-                <Rating />
+                <Rating rating = {this.state.averageRating}/>
 
                 <Reviews reviews={this.state.reviews} />
 
@@ -199,7 +222,7 @@ class JournalistPage extends Component {
                 </button>
 
                 {/*
-                    reviews.map(item => <div>{item.comment}</div>)
+                    reviews.map(review => <div>{review.comment}</div>)
                 }*/}
 
             </div>
