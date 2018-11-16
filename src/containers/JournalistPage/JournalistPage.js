@@ -31,9 +31,8 @@ class JournalistPage extends Component {
             //indicates whether a new review is in the process of being written
             writingReview: false,
 
-            theResponse: "",
+            averageRating: 0,
 
-            averageRating: 0
         }
     }
 
@@ -177,7 +176,6 @@ class JournalistPage extends Component {
     // retrieves arraylist of reviews from database as soon as component mounts
     componentDidMount() {
 
-        //axios.get('https://confianza-f74d4.firebaseio.com/andersoncooper/'+link +'.json')
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
@@ -188,6 +186,15 @@ class JournalistPage extends Component {
 
     }
 
+    updateView(){
+        axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
+            .then(response => {
+                if (response.data != null) {
+                    this.setState({ reviews: Object.values(response.data) })
+                    this.calculateAverageRating();
+                }
+            })
+    }
 
     render() {
 
@@ -220,7 +227,12 @@ class JournalistPage extends Component {
 
                     </NewReview>
                 </Modal>
-                <Navbar />
+                <Navbar
+                    
+                    nameSearchBarValue = {this.props.nameSearchBarValue}
+                    nameSearchBarChange = {this.props.nameSearchBarChange}
+                    searchBarClicked = { this.props.searchBarClicked}
+                    />
 
                 <JournalistIcon name = {this.props.journalistName}/>
 

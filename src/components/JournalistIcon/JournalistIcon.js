@@ -3,7 +3,7 @@ import profilePicture from '../../assets/images/profile-picture.png'
 import styles from './JournalistIcon.module.css'
 
 const journalistIcon = (props) => {
-    let names = props.name.split(" ");
+    const names = props.name.split(" ");
     
     let firstName = names[0];
     firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
