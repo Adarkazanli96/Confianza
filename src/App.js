@@ -8,21 +8,33 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      homepage: true
+      homepage: true,
+      nameSearched: ""
     }
   }
 
   //handler for switching from homepage to journalist page
   switchPageHandler = () => {
-    this.setState({ homepage: false })
+    this.setState({ homepage: false})
   }
+  setNameHandler = (event) => {
+    this.setState({
+        nameSearched: event.target.value
+    })
+}
+
+
 
   render() {
 
-    let page = <HomePage clicked={this.switchPageHandler} />;
+    let page = <HomePage
+    clicked={this.switchPageHandler}
+    nameChange={(event) => this.setNameHandler(event)}
+    nameValue = {this.state.nameSearched}
+    />;
 
     if (!this.state.homepage) {
-      page = <JournalistPage />
+      page = <JournalistPage journalistName = {this.state.nameSearched}/>
     }
 
     return (

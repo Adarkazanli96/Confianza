@@ -7,6 +7,7 @@ class HomePage extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            
         }
     }
 
@@ -19,16 +20,25 @@ class HomePage extends Component {
                     <button className={styles['login']}>Log In</button>
                     <button className={styles['signup']}>Sign Up</button>
                 </span>
-                
+
                 <Logo style='large' />
-                
+
                 <div className={styles['search-bar']}>
-                    <input className={styles['search-txt']} type="text" name="" placeholder="Type a name" />
-                    <a className={styles['search-btn']} onClick={this.props.clicked}>
-                        <img className={styles['search-icon']} src={searchIcon} alt="S" />
+                    <input
+                        className={styles['search-txt']}
+                        type="text" name=""
+                        placeholder="Type a name"
+                        value={this.props.nameValue}
+                        onChange={this.props.nameChange}
+                    />
+
+                    <a className={styles['search-btn']}
+                    onClick={(event) => {this.props.clicked();}}>
+                    
+                    <img className={styles['search-icon']} src={searchIcon} alt="S" />
                     </a>
                 </div>
-                
+
                 <div className={styles['quote']}>"You can't handle the truth."</div>
 
             </div>
