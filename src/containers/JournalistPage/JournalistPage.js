@@ -35,7 +35,9 @@ class JournalistPage extends Component {
 
             journalistName: this.props.journalistName,
 
-            nameDisplay: this.props.journalistName
+            nameDisplay: this.props.journalistName,
+
+            link:""
 
         }
     }
@@ -186,23 +188,40 @@ class JournalistPage extends Component {
 
     // retrieves arraylist of reviews from database as soon as component mounts
     componentDidMount() {
+        let profile;
+        
+        axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/link.json')
+            .then(response => {
+                    profile = response.data;
+            })
+
         // journalist name is initially input in homepage searchbar
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data)})
+                    this.setState({ reviews: Object.values(response.data), link: profile})
                     this.calculateAverageRating();
+                }
+                else{
+                    this.setState({link: profile})
                 }
             })
 
     }
 
     updateJournalist = () => {
+        let profile;
+        
+        axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/link.json')
+            .then(response => {
+                    profile = response.data;
+            })
+
         // journalist name is whatever the input of journalist searchbar is
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName })
+                    this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profile })
                     this.calculateAverageRating();
                 }
             })
@@ -246,7 +265,9 @@ class JournalistPage extends Component {
                     searchBarClicked={this.updateJournalist}
                 />
 
-                <JournalistIcon name={this.state.nameDisplay} />
+                <JournalistIcon
+                name={this.state.nameDisplay}
+                link = {this.state.link}/>
 
                 <Rating rating={this.state.averageRating} />
 

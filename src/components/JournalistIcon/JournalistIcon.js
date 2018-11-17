@@ -1,5 +1,6 @@
 import React from 'react'
 import profilePicture from '../../assets/images/profile-picture.png'
+
 import styles from './JournalistIcon.module.css'
 
 const journalistIcon = (props) => {
@@ -20,7 +21,7 @@ const journalistIcon = (props) => {
 
     return (
         <div>
-            <img className={styles['picture']} src={profilePicture} alt="picture" />
+            <img className={styles['picture']} src={props.link}/>
             <h3 className={styles['name']}>{firstName} {lastName}</h3>
         </div>
     );
