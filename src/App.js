@@ -25,16 +25,6 @@ class App extends Component {
     })
   }
 
-  set = (event) => {
-    this.setState({
-      journalistPageNameSearch: event.target.value
-    })
-  }
-
-  changeJournalistHandler = () => {
-    this.setState({nameSearched: this.state.journalistPageNameSearch})
-  }
-
   render() {
 
     let page = <HomePage
@@ -45,10 +35,7 @@ class App extends Component {
 
     if (!this.state.homepage) {
       page = <JournalistPage
-        journalistName={this.state.nameSearched}
-        nameSearchBarValue = {this.state.journalistPageNameSearch}
-        nameSearchBarChange = {(event) => this.set(event)}
-        searchBarClicked={this.changeJournalistHandler}/>
+        journalistName={this.state.nameSearched}/>
     }
 
   

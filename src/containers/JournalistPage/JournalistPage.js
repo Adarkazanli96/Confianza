@@ -33,6 +33,10 @@ class JournalistPage extends Component {
 
             averageRating: 0,
 
+            journalistName: this.props.journalistName,
+
+            nameDisplay: this.props.journalistName
+
         }
     }
 
@@ -126,6 +130,13 @@ class JournalistPage extends Component {
         this.setState({ newReview: r });*/
     }
 
+    // set the value of the journalist to value in the searchbar input field
+    setNameHandler = (event) => {
+        this.setState({
+            journalistName: event.target.value
+        })
+    }
+
     // posts new review to database and updates view
     submitReviewHandler = async () => {
 
@@ -139,13 +150,13 @@ class JournalistPage extends Component {
         if (review.rating != 0 && review.headline != "" && review.comment != "") {
             // post new review to database
             //await axios.post('/andersoncooper/' + link + '.json', review)
-            await axios.post(this.props.journalistName.toLowerCase() + '/reviews.json', review)
+            await axios.post(this.state.journalistName.toLowerCase() + '/reviews.json', review)
                 .then(response => console.log(response))
                 .catch(error => console.log(error));
 
             // get data from database to update view
             //axios.get('https://confianza-f74d4.firebaseio.com/andersoncooper/' + link + '.json')
-            axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
+            axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
                 .then(response => {
                     this.setState({ reviews: Object.values(response.data) });
                     this.calculateAverageRating();
@@ -175,22 +186,23 @@ class JournalistPage extends Component {
 
     // retrieves arraylist of reviews from database as soon as component mounts
     componentDidMount() {
-
+        // journalist name is initially input in homepage searchbar
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data) })
+                    this.setState({ reviews: Object.values(response.data)})
                     this.calculateAverageRating();
                 }
             })
 
     }
 
-    updateView(){
-        axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
+    updateJournalist = () => {
+        // journalist name is whatever the input of journalist searchbar is
+        axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data) })
+                    this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName })
                     this.calculateAverageRating();
                 }
             })
@@ -228,13 +240,13 @@ class JournalistPage extends Component {
                     </NewReview>
                 </Modal>
                 <Navbar
-                    
-                    nameSearchBarValue = {this.props.nameSearchBarValue}
-                    nameSearchBarChange = {this.props.nameSearchBarChange}
-                    searchBarClicked = { this.props.searchBarClicked}
-                    />
 
-                <JournalistIcon name = {this.props.journalistName}/>
+                    nameSearchBarValue={this.state.journalistName}
+                    nameSearchBarChange={(event) => this.setNameHandler(event)}
+                    searchBarClicked={this.updateJournalist}
+                />
+
+                <JournalistIcon name={this.state.nameDisplay} />
 
                 <Rating rating={this.state.averageRating} />
 
