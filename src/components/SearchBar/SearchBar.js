@@ -17,7 +17,7 @@ const searchBar = (props) => {
             <a
                 className={styles['search-btn']}
                 onClick = {props.searchBarClicked}>
-                <img className={styles['search-icon']} src={searchIcon} alt="S" />
+                <img className={styles['search-icon']} src={searchIcon} />
             </a>
 
         </div>

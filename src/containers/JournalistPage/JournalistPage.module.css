@@ -33,3 +33,8 @@
 .star{
     font-size: 45px;
 }
+
+.results-not-found{
+    margin-top: 10px;
+    text-align: center;
+}

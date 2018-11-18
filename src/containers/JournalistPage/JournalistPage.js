@@ -37,7 +37,11 @@ class JournalistPage extends Component {
 
             nameDisplay: this.props.journalistName,
 
-            link: ""
+            link: "",
+
+            failedNameSearch: "",
+            
+            showError: false
 
         }
     }
@@ -139,6 +143,7 @@ class JournalistPage extends Component {
         })
     }
 
+
     // posts new review to database and updates view
     submitReviewHandler = async () => {
 
@@ -208,14 +213,22 @@ class JournalistPage extends Component {
         // journalist name is initially input in homepage searchbar
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
+                // journalist exists and data is not null
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data), link: profile })
+                    this.setState({ reviews: Object.values(response.data), showError: false, link: profile })
                     this.calculateAverageRating();
                 }
                 else {
+                    // journalist exists and data is null
                     if (exists == true) {
-                        this.setState({ link: profile, averageRating: 0 })
+                        this.setState({ link: profile, showError: false, averageRating: 0 })
                     }
+
+                    // journalist does not exist
+                    else{
+                        this.setState({showError: true})
+                    }
+                    
                 }
             })
 
@@ -244,13 +257,18 @@ class JournalistPage extends Component {
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profile })
+                    this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profile, showError: false })
                     this.calculateAverageRating();
                 }
                 else {
-                    //if journalist is in the database
+                    
                     if (exists == true) {
-                        this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile, averageRating: 0 })
+                        this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile, showError: false, averageRating: 0 })
+                    }
+
+                    
+                    else{
+                        this.setState({showError: true, failedNameSearch: this.state.journalistName})
                     }
 
                 }
@@ -295,6 +313,9 @@ class JournalistPage extends Component {
                     nameSearchBarChange={(event) => this.setNameHandler(event)}
                     searchBarClicked={this.updateJournalist}
                 />
+                <div className = {styles['results-not-found']}>
+                { this.state.showError ? "No results found for: " + this.state.failedNameSearch : null }
+                    </div>
 
                 <JournalistIcon
                     name={this.state.nameDisplay}

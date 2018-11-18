@@ -12,22 +12,27 @@ class App extends Component {
       homepage: true,
       nameSearched: "",
       journalistPageNameSearch: "",
+      failedNameSearch: "",
+      showError: false
     }
   }
 
   //handler for switching from homepage to journalist page
   switchPageHandler = async () => {
-    
+
     let exists;
 
     // check if it exists through database
     await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.nameSearched.toLowerCase() + '/exists.json')
-            .then(response => {
-                exists = response.data;
-            })
-    
-    if(exists == true){
-    this.setState({ homepage: false })
+      .then(response => {
+        exists = response.data;
+      })
+
+    if (exists == true) {
+      this.setState({ homepage: false })
+    }
+    else {
+      this.setState({ showError: true, failedNameSearch: this.state.nameSearched })
     }
   }
 
@@ -43,14 +48,16 @@ class App extends Component {
       clicked={this.switchPageHandler}
       nameChange={(event) => this.setNameHandler(event)}
       nameValue={this.state.nameSearched}
+      failedNameSearch={this.state.failedNameSearch}
+      showError={this.state.showError}
     />
 
     if (!this.state.homepage) {
       page = <JournalistPage
-        journalistName={this.state.nameSearched}/>
+        journalistName={this.state.nameSearched} />
     }
 
-  
+
 
     return (
       <Aux>

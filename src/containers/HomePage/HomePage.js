@@ -7,11 +7,13 @@ class HomePage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            
+     
         }
     }
 
     render() {
+
+        //axios
 
         return (
 
@@ -39,6 +41,10 @@ class HomePage extends Component {
                     <img className={styles['search-icon']} src={searchIcon} alt="S" />
                     </a>
                 </div>
+
+                <div className = {styles['results-not-found']}>
+                { this.props.showError ? "No results found for: " + this.props.failedNameSearch : null }
+                    </div>
 
                 <div className={styles['quote']}>"Get the truth and print it."</div>
 
