@@ -30,6 +30,7 @@ class HomePage extends Component {
                         placeholder="Type a name"
                         value={this.props.nameValue}
                         onChange={this.props.nameChange}
+                        onKeyDown= {(event) => {if(event.keyCode==13){this.props.clicked()}}}
                     />
 
                     <a className={styles['search-btn']}

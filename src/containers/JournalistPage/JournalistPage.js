@@ -158,7 +158,7 @@ class JournalistPage extends Component {
 
             // get data from database to update view
             //axios.get('https://confianza-f74d4.firebaseio.com/andersoncooper/' + link + '.json')
-            axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
+            await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
                 .then(response => {
                     this.setState({ reviews: Object.values(response.data) });
                     this.calculateAverageRating();
@@ -197,7 +197,7 @@ class JournalistPage extends Component {
                 exists = response.data;
             })
 
-        axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/link.json')
+        await axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/link.json')
             .then(response => {
                 if (exists == true) {
                     profile = response.data;
@@ -232,7 +232,7 @@ class JournalistPage extends Component {
                 exists = response.data;
             })
 
-        axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/link.json')
+        await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/link.json')
             .then(response => {
                 if (exists == true) {
                     profile = response.data;

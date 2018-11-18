@@ -12,6 +12,7 @@ const searchBar = (props) => {
 
                 value = {props.nameSearchBarValue}
                 onChange = {props.nameSearchBarChange}
+                onKeyDown= {(event) => {if(event.keyCode==13){props.searchBarClicked()}}}
              />
             <a
                 className={styles['search-btn']}
