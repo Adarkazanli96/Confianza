@@ -224,6 +224,9 @@ class JournalistPage extends Component {
                     this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profile })
                     this.calculateAverageRating();
                 }
+                else{
+                    this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile })
+                }
             })
     }
 
