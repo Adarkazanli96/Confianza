@@ -37,7 +37,7 @@ class JournalistPage extends Component {
 
             nameDisplay: this.props.journalistName,
 
-            link:""
+            link: ""
 
         }
     }
@@ -187,36 +187,59 @@ class JournalistPage extends Component {
     }
 
     // retrieves arraylist of reviews from database as soon as component mounts
-    componentDidMount() {
+    componentDidMount = async () => {
         let profile;
-        
-        axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/link.json')
+        let exists;
+
+        // only get data if journalist exists in database
+        await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/exists.json')
             .then(response => {
-                    profile = response.data;
+                exists = response.data;
             })
 
+        axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/link.json')
+            .then(response => {
+                if (exists == true) {
+                    profile = response.data;
+                }
+            })
+
+        //if (profile != null) {
         // journalist name is initially input in homepage searchbar
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data), link: profile})
+                    this.setState({ reviews: Object.values(response.data), link: profile })
                     this.calculateAverageRating();
                 }
-                else{
-                    this.setState({link: profile, averageRating: 0})
+                else {
+                    if (exists == true) {
+                        this.setState({ link: profile, averageRating: 0 })
+                    }
                 }
             })
 
     }
+    //}
 
-    updateJournalist = () => {
+    updateJournalist = async () => {
+        let exists;
         let profile;
-        
-        axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/link.json')
+
+        // only get data if journalist exists in database
+        await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/exists.json')
             .then(response => {
-                    profile = response.data;
+                exists = response.data;
             })
 
+        axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/link.json')
+            .then(response => {
+                if (exists == true) {
+                    profile = response.data;
+                }
+            })
+
+        //if (profile != null) {
         // journalist name is whatever the input of journalist searchbar is
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
@@ -224,11 +247,16 @@ class JournalistPage extends Component {
                     this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profile })
                     this.calculateAverageRating();
                 }
-                else{
-                    this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile, averageRating: 0 })
+                else {
+                    //if journalist is in the database
+                    if (exists == true) {
+                        this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile, averageRating: 0 })
+                    }
+
                 }
             })
     }
+    //}
 
     render() {
 
@@ -269,8 +297,8 @@ class JournalistPage extends Component {
                 />
 
                 <JournalistIcon
-                name={this.state.nameDisplay}
-                link = {this.state.link}/>
+                    name={this.state.nameDisplay}
+                    link={this.state.link} />
 
                 <Rating rating={this.state.averageRating} />
 
