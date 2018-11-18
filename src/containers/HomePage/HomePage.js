@@ -40,7 +40,7 @@ class HomePage extends Component {
                     </a>
                 </div>
 
-                <div className={styles['quote']}>"You can't handle the truth."</div>
+                <div className={styles['quote']}>"Get the truth and print it."</div>
 
             </div>
         );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from './axios-orders'
 import Aux from './hoc/Aux/Aux'
 import JournalistPage from './containers/JournalistPage/JournalistPage'
 import HomePage from './containers/HomePage/HomePage'
@@ -15,8 +16,19 @@ class App extends Component {
   }
 
   //handler for switching from homepage to journalist page
-  switchPageHandler = () => {
+  switchPageHandler = async () => {
+    
+    let exists;
+
+    // check if it exists through database
+    await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.nameSearched.toLowerCase() + '/exists.json')
+            .then(response => {
+                exists = response.data;
+            })
+    
+    if(exists == true){
     this.setState({ homepage: false })
+    }
   }
 
   setNameHandler = (event) => {
