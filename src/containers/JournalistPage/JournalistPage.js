@@ -203,7 +203,7 @@ class JournalistPage extends Component {
                     this.calculateAverageRating();
                 }
                 else{
-                    this.setState({link: profile})
+                    this.setState({link: profile, averageRating: 0})
                 }
             })
 
@@ -225,7 +225,7 @@ class JournalistPage extends Component {
                     this.calculateAverageRating();
                 }
                 else{
-                    this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile })
+                    this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile, averageRating: 0 })
                 }
             })
     }

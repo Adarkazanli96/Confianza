@@ -1,4 +1,5 @@
 import React from 'react'
+import zero from '../../assets/images/stars/0.png'
 import one from '../../assets/images/stars/1.png'
 import two from '../../assets/images/stars/2.png'
 import three from '../../assets/images/stars/3.png'
@@ -13,6 +14,10 @@ import styles from './Rating.module.css'
 const rating = (props) => {
     
     let starNumber;
+
+    if(props.rating == 0){
+        starNumber = zero;
+    }
 
     if(props.rating >=1 && props.rating < 1.3){
         starNumber = one;
