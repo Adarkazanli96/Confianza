@@ -23,7 +23,9 @@ class JournalistPage extends Component {
             newReview: {
                 comment: "",
                 headline: "",
-                rating: 0
+                rating: 0,
+                likes: 0,
+                dislikes: 0
             },
 
             starHover: true,
@@ -40,7 +42,7 @@ class JournalistPage extends Component {
             link: "",
 
             failedNameSearch: "",
-            
+
             showError: false
 
         }
@@ -143,6 +145,18 @@ class JournalistPage extends Component {
         })
     }
 
+    // increment the value of likes
+    updateLikes = () => {
+        // axios post
+        // like props of reviews to this method, and again, so thumbs up can connect
+        // should automatically update with that
+    }
+
+    // decrement the value of likes
+   updateDislikes = () => {
+        // axios post
+        // like props of reviews to this method, and again, so thumbs up can connect
+    }
 
     // posts new review to database and updates view
     submitReviewHandler = async () => {
@@ -150,7 +164,9 @@ class JournalistPage extends Component {
         const review = {
             rating: this.state.newReview.rating,
             headline: this.state.newReview.headline,
-            comment: this.state.newReview.comment
+            comment: this.state.newReview.comment,
+            likes: this.state.newReview.likes,
+            dislikes: this.state.newReview.dislikes
         }
 
         // fields cannot be empty
@@ -225,10 +241,10 @@ class JournalistPage extends Component {
                     }
 
                     // journalist does not exist
-                    else{
-                        this.setState({showError: true})
+                    else {
+                        this.setState({ showError: true })
                     }
-                    
+
                 }
             })
 
@@ -261,14 +277,14 @@ class JournalistPage extends Component {
                     this.calculateAverageRating();
                 }
                 else {
-                    
+
                     if (exists == true) {
                         this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile, showError: false, averageRating: 0 })
                     }
 
-                    
-                    else{
-                        this.setState({showError: true, failedNameSearch: this.state.journalistName})
+
+                    else {
+                        this.setState({ showError: true, failedNameSearch: this.state.journalistName })
                     }
 
                 }
@@ -308,14 +324,14 @@ class JournalistPage extends Component {
                     </NewReview>
                 </Modal>
                 <Navbar
-
+                back = {this.props.back}
                     nameSearchBarValue={this.state.journalistName}
                     nameSearchBarChange={(event) => this.setNameHandler(event)}
                     searchBarClicked={this.updateJournalist}
                 />
-                <div className = {styles['results-not-found']}>
-                { this.state.showError ? "No results found for: " + this.state.failedNameSearch : null }
-                    </div>
+                <div className={styles['results-not-found']}>
+                    {this.state.showError ? "No results found for: " + this.state.failedNameSearch : null}
+                </div>
 
                 <JournalistIcon
                     name={this.state.nameDisplay}
@@ -323,7 +339,10 @@ class JournalistPage extends Component {
 
                 <Rating rating={this.state.averageRating} />
 
-                <Reviews reviews={this.state.reviews} />
+                <Reviews
+                reviews={this.state.reviews}
+                thumbsUpClick={this.updateLikes}
+                thumbsDownClick = {this.updateDislikes}/>
 
                 <button
                     className={styles['write-new-review-button']}

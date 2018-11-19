@@ -46,7 +46,7 @@ class HomePage extends Component {
                 { this.props.showError ? "No results found for: " + this.props.failedNameSearch : null }
                     </div>
 
-                <div className={styles['quote']}>"Get the truth and print it."</div>
+                <div className={styles['quote']}>Get the truth and print it.</div>
 
             </div>
         );

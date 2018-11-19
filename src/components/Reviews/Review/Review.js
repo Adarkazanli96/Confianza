@@ -43,9 +43,9 @@ const review = (props) => {
             <p className={styles['comment']}>
                 {props.comment}
         </p>
-            <span className={styles['comment-likes-number']}>0</span>
+            <span className={styles['comment-likes-number']}>{props.likes}</span>
             <img className={styles['comment-likes-button']} src={thumbsUp} alt="like" />
-            <span className={styles['comment-dislikes-number']}>0</span>
+            <span className={styles['comment-dislikes-number']}>{props.dislikes}</span>
             <img className={styles['comment-dislikes-button']} src={thumbsDown} alt="dislike" />
             <img className = {styles['flag']} src = {flag} alt = "report" />
         </div>);

@@ -10,6 +10,8 @@ class App extends Component {
     super(props)
     this.state = {
       homepage: true,
+      journalistPage: false,
+      aboutPage: false,
       nameSearched: "",
       journalistPageNameSearch: "",
       failedNameSearch: "",
@@ -42,6 +44,17 @@ class App extends Component {
     })
   }
 
+  // goes back to the homepage
+  back = () => {
+    this.setState({
+      homepage: true,
+      nameSearched: "",
+      journalistPageNameSearch: "",
+      failedNameSearch: "",
+      showError: false
+    })
+  }
+
   render() {
 
     let page = <HomePage
@@ -54,7 +67,8 @@ class App extends Component {
 
     if (!this.state.homepage) {
       page = <JournalistPage
-        journalistName={this.state.nameSearched} />
+        journalistName={this.state.nameSearched}
+        back={this.back} />
     }
 
 

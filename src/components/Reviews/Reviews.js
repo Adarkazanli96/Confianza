@@ -21,6 +21,8 @@ const reviews = (props) => {
                 headline ={review.headline}
                 comment = {review.comment}
                 rating = {review.rating}
+                likes = {review.likes}
+                dislikes = {review.dislikes}
             />
         }
         );

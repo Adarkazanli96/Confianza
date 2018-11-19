@@ -5,7 +5,7 @@ import styles from './Navbar.module.css'
 
 const navbar = (props) => (
     <header className={styles['navbar']}>
-        <Logo style='small' />
+        <Logo back = {props.back} style='small' />
 
         <SearchBar
             nameSearchBarValue = {props.nameSearchBarValue}
