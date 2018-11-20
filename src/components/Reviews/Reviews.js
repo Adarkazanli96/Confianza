@@ -23,6 +23,7 @@ const reviews = (props) => {
                 rating = {review.rating}
                 likes = {review.likes}
                 dislikes = {review.dislikes}
+                thumbsUpClick = {() => props.thumbsUpClick(index)}
             />
         }
         );

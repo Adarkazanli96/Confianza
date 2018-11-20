@@ -10,6 +10,7 @@ import Modal from '../../components/Modal/Modal'
 import NewReview from '../../components/NewReview/NewReview'
 import StarRatingComponent from 'react-star-rating-component';
 import axios from '../../axios-orders'
+import * as firebase from 'firebase'
 
 class JournalistPage extends Component {
     constructor(props) {
@@ -25,7 +26,9 @@ class JournalistPage extends Component {
                 headline: "",
                 rating: 0,
                 likes: 0,
-                dislikes: 0
+                dislikes: 0,
+                likeIncremented: false,
+                dislikeIncremented: false
             },
 
             starHover: true,
@@ -46,6 +49,18 @@ class JournalistPage extends Component {
             showError: false
 
         }
+
+        var config = {
+            apiKey: "AIzaSyAGW8NaKRt9ErLX7Lbz-kRokhF1MYbsqIo",
+            authDomain: "confianza-f74d4.firebaseapp.com",
+            databaseURL: "https://confianza-f74d4.firebaseio.com",
+            projectId: "confianza-f74d4",
+            storageBucket: "confianza-f74d4.appspot.com",
+            messagingSenderId: "248203315515"
+        };
+        firebase.initializeApp(config);
+
+
     }
 
     onStarClick(nextValue, prevValue, name) {
@@ -146,16 +161,69 @@ class JournalistPage extends Component {
     }
 
     // increment the value of likes
-    updateLikes = () => {
-        // axios post
-        // like props of reviews to this method, and again, so thumbs up can connect
-        // should automatically update with that
+    updateLikes = (reviewIndex) => {
+
+        let reviews = [...this.state.reviews];
+
+        // if post was already disliked, remove dislike and add like
+        if (reviews[reviewIndex].dislikeIncremented == true) {
+            reviews[reviewIndex].dislikeIncremented = false;
+            reviews[reviewIndex].dislikes = 0;
+
+            reviews[reviewIndex].likes = 1;
+            reviews[reviewIndex].likeIncremented = true;
+        }
+
+        // if post was already liked, remove like
+        else if (this.state.reviews[reviewIndex].likeIncremented == true) {
+            reviews[reviewIndex].likeIncremented = false;
+            reviews[reviewIndex].likes = 0;
+        }
+
+
+        else {
+            reviews[reviewIndex].likes = 1;
+            reviews[reviewIndex].likeIncremented = true;
+        }
+
+        //var ref = firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+this.setState({reviews: reviews});
+        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+        
     }
 
     // decrement the value of likes
-   updateDislikes = () => {
-        // axios post
-        // like props of reviews to this method, and again, so thumbs up can connect
+    updateDislikes = async (reviewIndex) => {
+        
+        // if post was already liked, 
+        if (this.state.reviews[reviewIndex].likeIncremented === true) {
+            this.state.reviews[reviewIndex].likeIncremented = false;
+            this.state.reviews[reviewIndex].likes = 0;
+
+            this.state.reviews[reviewIndex].dislikes = 1;
+            this.state.reviews[reviewIndex].dislikeIncremented = true;
+        }
+
+        if (this.state.reviews[reviewIndex].dislikeIncremented === true) {
+            this.state.reviews[reviewIndex].dislikeIncremented = false;
+            this.state.reviews[reviewIndex].dislikes = 0;
+
+
+
+        }
+
+
+        else {
+            this.state.reviews[reviewIndex].dislikes = 1;
+            this.state.reviews[reviewIndex].dislikeIncremented = true;
+        }
+
+        await firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+        axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
+                .then(response => {
+                    this.setState({ reviews: Object.values(response.data) });
+                })
+
     }
 
     // posts new review to database and updates view
@@ -166,7 +234,9 @@ class JournalistPage extends Component {
             headline: this.state.newReview.headline,
             comment: this.state.newReview.comment,
             likes: this.state.newReview.likes,
-            dislikes: this.state.newReview.dislikes
+            dislikes: this.state.newReview.dislikes,
+            likeIncremented: this.state.newReview.likeIncremented,
+            dislikeIncremented: this.state.newReview.dislikeIncremented
         }
 
         // fields cannot be empty
@@ -184,6 +254,7 @@ class JournalistPage extends Component {
                     this.setState({ reviews: Object.values(response.data) });
                     this.calculateAverageRating();
                 })
+
 
             // close the popup
             this.closeReviewHandler();
@@ -324,7 +395,7 @@ class JournalistPage extends Component {
                     </NewReview>
                 </Modal>
                 <Navbar
-                back = {this.props.back}
+                    back={this.props.back}
                     nameSearchBarValue={this.state.journalistName}
                     nameSearchBarChange={(event) => this.setNameHandler(event)}
                     searchBarClicked={this.updateJournalist}
@@ -340,9 +411,9 @@ class JournalistPage extends Component {
                 <Rating rating={this.state.averageRating} />
 
                 <Reviews
-                reviews={this.state.reviews}
-                thumbsUpClick={this.updateLikes}
-                thumbsDownClick = {this.updateDislikes}/>
+                    reviews={this.state.reviews}
+                    thumbsUpClick={this.updateLikes}
+                    thumbsDownClick={this.updateDislikes} />
 
                 <button
                     className={styles['write-new-review-button']}
