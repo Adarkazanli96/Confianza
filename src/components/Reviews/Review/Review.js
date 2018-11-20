@@ -44,9 +44,9 @@ const review = (props) => {
                 {props.comment}
         </p>
             <span className={styles['comment-likes-number']}>{props.likes}</span>
-            <img className={styles['comment-likes-button']} src={thumbsUp} onClick = {props.thumbsUpClick} alt="likes" />
+            <img className={styles['comment-likes-button']} src={thumbsUp} onClick = {props.thumbsUpClick}/>
             <span className={styles['comment-dislikes-number']}>{props.dislikes}</span>
-            <img className={styles['comment-dislikes-button']} src={thumbsDown} alt="dislikes" />
+            <img className={styles['comment-dislikes-button']} src={thumbsDown} onClick = {props.thumbsDownClick} />
             <img className = {styles['flag']} src = {flag} alt = "report" />
         </div>);
 }

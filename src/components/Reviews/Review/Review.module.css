@@ -38,10 +38,19 @@
 
 }
 
+.comment-likes-button:hover{
+    opacity: .5;
+}
+
 .comment-dislikes-button{
     width: 15px;
     height: auto;
     padding-left: 4px;
+    margin-bottom: -4px;
+}
+
+.comment-dislikes-button:hover{
+    opacity: .5;
 }
 
 .stars{
@@ -53,4 +62,8 @@
     padding-left: 530px;
     height: 15px;
     width: auto;
+}
+
+.flag:hover{
+    opacity: .5;
 }

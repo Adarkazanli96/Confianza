@@ -58,7 +58,10 @@ class JournalistPage extends Component {
             storageBucket: "confianza-f74d4.appspot.com",
             messagingSenderId: "248203315515"
         };
-        firebase.initializeApp(config);
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(config);
+        }
 
 
     }
@@ -175,7 +178,7 @@ class JournalistPage extends Component {
         }
 
         // if post was already liked, remove like
-        else if (this.state.reviews[reviewIndex].likeIncremented == true) {
+        else if (reviews[reviewIndex].likeIncremented == true) {
             reviews[reviewIndex].likeIncremented = false;
             reviews[reviewIndex].likes = 0;
         }
@@ -186,43 +189,42 @@ class JournalistPage extends Component {
             reviews[reviewIndex].likeIncremented = true;
         }
 
-        //var ref = firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
-this.setState({reviews: reviews});
+        // set the state here instead of waiting for it to do it in "updateJournalist()"
+        this.setState({ reviews: reviews });
         firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
-        
+
     }
 
     // decrement the value of likes
     updateDislikes = async (reviewIndex) => {
-        
-        // if post was already liked, 
-        if (this.state.reviews[reviewIndex].likeIncremented === true) {
-            this.state.reviews[reviewIndex].likeIncremented = false;
-            this.state.reviews[reviewIndex].likes = 0;
 
-            this.state.reviews[reviewIndex].dislikes = 1;
-            this.state.reviews[reviewIndex].dislikeIncremented = true;
+        let reviews = [...this.state.reviews];
+
+        // if post was already liked, remove like and add dislike
+        if (reviews[reviewIndex].likeIncremented == true) {
+            reviews[reviewIndex].likeIncremented = false;
+            reviews[reviewIndex].likes = 0;
+
+            reviews[reviewIndex].dislikes = 1;
+            reviews[reviewIndex].dislikeIncremented = true;
         }
 
-        if (this.state.reviews[reviewIndex].dislikeIncremented === true) {
-            this.state.reviews[reviewIndex].dislikeIncremented = false;
-            this.state.reviews[reviewIndex].dislikes = 0;
-
-
-
+        // if post was already disliked, remove dislike
+        else if (reviews[reviewIndex].dislikeIncremented == true) {
+            reviews[reviewIndex].dislikeIncremented = false;
+            reviews[reviewIndex].dislikes = 0;
         }
 
 
         else {
-            this.state.reviews[reviewIndex].dislikes = 1;
-            this.state.reviews[reviewIndex].dislikeIncremented = true;
+            reviews[reviewIndex].dislikes = 1;
+            reviews[reviewIndex].dislikeIncremented = true;
         }
 
-        await firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
-        axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
-                .then(response => {
-                    this.setState({ reviews: Object.values(response.data) });
-                })
+        // set the state here instead of waiting for it to do it in "updateJournalist()"
+        this.setState({ reviews: reviews });
+        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+
 
     }
 
@@ -249,13 +251,14 @@ this.setState({reviews: reviews});
 
             // get data from database to update view
             //axios.get('https://confianza-f74d4.firebaseio.com/andersoncooper/' + link + '.json')
-            await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
+            axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
                 .then(response => {
                     this.setState({ reviews: Object.values(response.data) });
                     this.calculateAverageRating();
                 })
 
-
+            // update the reviews to the one in state, so the keys are just the indices
+            firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
             // close the popup
             this.closeReviewHandler();
         }
@@ -280,6 +283,7 @@ this.setState({reviews: reviews});
 
     // retrieves arraylist of reviews from database as soon as component mounts
     componentDidMount = async () => {
+
         let profile;
         let exists;
 
