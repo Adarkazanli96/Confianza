@@ -13,8 +13,6 @@ class HomePage extends Component {
 
     render() {
 
-        //axios
-
         return (
 
             <div>

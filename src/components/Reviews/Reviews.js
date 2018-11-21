@@ -25,6 +25,7 @@ const reviews = (props) => {
                 dislikes = {review.dislikes}
                 thumbsUpClick = {() => props.thumbsUpClick(index)}
                 thumbsDownClick = {() => props.thumbsDownClick(index)}
+                flagComment = {() => props.flagComment(index)}
             />
         }
         );

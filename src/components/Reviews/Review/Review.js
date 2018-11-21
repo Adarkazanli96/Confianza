@@ -47,7 +47,7 @@ const review = (props) => {
             <img className={styles['comment-likes-button']} src={thumbsUp} onClick = {props.thumbsUpClick}/>
             <span className={styles['comment-dislikes-number']}>{props.dislikes}</span>
             <img className={styles['comment-dislikes-button']} src={thumbsDown} onClick = {props.thumbsDownClick} />
-            <img className = {styles['flag']} src = {flag} alt = "report" />
+            <img className = {styles['flag']} src = {flag} onClick={props.flagComment} />
         </div>);
 }
 

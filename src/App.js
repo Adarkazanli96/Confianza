@@ -9,70 +9,91 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      homepage: true,
+      homePage: true,
       journalistPage: false,
       aboutPage: false,
-      nameSearched: "",
-      journalistPageNameSearch: "",
-      failedNameSearch: "",
-      showError: false
+      homePageNameSearched: "",
+      journalistPageNameSearched: "",
+      homePageFailedNameSearch: "",
+      showHomePageSearchError: false
     }
   }
 
-  //handler for switching from homepage to journalist page
-  switchPageHandler = async () => {
+  // handler for switching from homepage to journalist page
+  switchHometoJournalistHandler = async () => {
 
     let exists;
 
-    // check if it exists through database
-    await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.nameSearched.toLowerCase() + '/exists.json')
+    // check if the name exists in the database
+    await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.homePageNameSearched.toLowerCase() + '/exists.json')
       .then(response => {
         exists = response.data;
       })
 
+    // if the journalist exists, set the homepage to false and journalist page to true
     if (exists == true) {
-      this.setState({ homepage: false })
+      this.setState({ homePage: false, journalistPage: true, aboutPage: false })
     }
+
+    // journalist does not exist
     else {
-      this.setState({ showError: true, failedNameSearch: this.state.nameSearched })
+      //check if input is null, in that case do nothing
+      if (this.state.homePageNameSearched == "") {
+        this.setState({ showHomePageSearchError: false})
+      }
+
+      //otherwise, show the attempted search failed error
+      else {
+        this.setState({ showHomePageSearchError: true, homePageFailedNameSearch: this.state.homePageNameSearched })
+      }
     }
   }
 
-  setNameHandler = (event) => {
+  // set the journalist name to whatever the input in the homepage search bar is
+  setJournalistNameHandler = (event) => {
     this.setState({
-      nameSearched: event.target.value
+      homePageNameSearched: event.target.value
     })
   }
 
-  // goes back to the homepage
-  back = () => {
+  // goes back to the homepage, resets all of the states
+  backToHomeHandler = () => {
     this.setState({
-      homepage: true,
-      nameSearched: "",
-      journalistPageNameSearch: "",
-      failedNameSearch: "",
-      showError: false
+      homePage: true,
+      journalistPage: false,
+      aboutPage: false,
+      homePageNameSearched: "",
+      journalistPageNameSearched: "",
+      homePageFailedNameSearch: "",
+      showHomePageSearchError: false
     })
   }
 
   render() {
 
-    let page = <HomePage
-      clicked={this.switchPageHandler}
-      nameChange={(event) => this.setNameHandler(event)}
-      nameValue={this.state.nameSearched}
-      failedNameSearch={this.state.failedNameSearch}
-      showError={this.state.showError}
-    />
+    let page
 
-    if (!this.state.homepage) {
+    // set the page to home page
+    if (this.state.homePage) {
+      page = <HomePage
+        clicked={this.switchHometoJournalistHandler}
+        nameChange={(event) => this.setJournalistNameHandler(event)}
+        nameValue={this.state.homePageNameSearched}
+        failedNameSearch={this.state.homePageFailedNameSearch}
+        showError={this.state.showHomePageSearchError}
+      />
+    }
+
+    // set the page to journalist page
+    else if (this.state.journalistPage) {
       page = <JournalistPage
-        journalistName={this.state.nameSearched}
-        back={this.back} />
+        journalistName={this.state.homePageNameSearched}
+        back={this.backToHomeHandler} />
     }
 
 
 
+    // display the proper page
     return (
       <Aux>
         {page}

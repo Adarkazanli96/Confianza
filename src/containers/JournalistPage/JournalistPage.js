@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Logo from '../../components/Logo/Logo'
-import JournalistIcon from '../../components/JournalistIcon/JournalistIcon'
+import JournalistProfile from '../../components/JournalistProfile/JournalistProfile'
 import Rating from '../../components/Rating/Rating'
 import Reviews from '../../components/Reviews/Reviews'
 import SearchBar from '../../components/SearchBar/SearchBar'
@@ -28,7 +28,8 @@ class JournalistPage extends Component {
                 likes: 0,
                 dislikes: 0,
                 likeIncremented: false,
-                dislikeIncremented: false
+                dislikeIncremented: false,
+                flags: 0
             },
 
             starHover: true,
@@ -38,8 +39,10 @@ class JournalistPage extends Component {
 
             averageRating: 0,
 
+            // name searched in input field
             journalistName: this.props.journalistName,
 
+            // name actually displayed on the page
             nameDisplay: this.props.journalistName,
 
             link: "",
@@ -156,19 +159,28 @@ class JournalistPage extends Component {
         this.setState({ newReview: r });*/
     }
 
-    // set the value of the journalist to value in the searchbar input field
+    // set the value of the journalist searched to value in the searchbar input field
     setNameHandler = (event) => {
         this.setState({
             journalistName: event.target.value
         })
     }
 
-    // increment the value of likes
+
+    // increments number of flags for a review in the database
+    flagComment = (reviewIndex) => {
+        let reviews = [...this.state.reviews];
+        reviews[reviewIndex].flags++;
+        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+        alert("Comment Flagged!");
+    }
+
+    // increment the number of likes for a review in the database
     updateLikes = (reviewIndex) => {
 
         let reviews = [...this.state.reviews];
 
-        // if post was already disliked, remove dislike and add like
+        // if post was already disliked, decrement dislike and increment like
         if (reviews[reviewIndex].dislikeIncremented == true) {
             reviews[reviewIndex].dislikeIncremented = false;
             reviews[reviewIndex].dislikes = 0;
@@ -177,30 +189,32 @@ class JournalistPage extends Component {
             reviews[reviewIndex].likeIncremented = true;
         }
 
-        // if post was already liked, remove like
+        // if post was already liked, decrement like
         else if (reviews[reviewIndex].likeIncremented == true) {
             reviews[reviewIndex].likeIncremented = false;
             reviews[reviewIndex].likes = 0;
         }
 
-
+        // otherwise increment number of likes
         else {
             reviews[reviewIndex].likes = 1;
             reviews[reviewIndex].likeIncremented = true;
         }
 
-        // set the state here instead of waiting for it to do it in "updateJournalist()"
+        // Set the state instead of waiting for it to do it in "updateJournalist()" in searchbar clicked
         this.setState({ reviews: reviews });
+
+        // update the reviews in the database
         firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
 
     }
 
-    // decrement the value of likes
+    // increment the number of likes for a review in the database
     updateDislikes = async (reviewIndex) => {
 
         let reviews = [...this.state.reviews];
 
-        // if post was already liked, remove like and add dislike
+        // if post was already liked, decrement like and increment dislike
         if (reviews[reviewIndex].likeIncremented == true) {
             reviews[reviewIndex].likeIncremented = false;
             reviews[reviewIndex].likes = 0;
@@ -209,21 +223,24 @@ class JournalistPage extends Component {
             reviews[reviewIndex].dislikeIncremented = true;
         }
 
-        // if post was already disliked, remove dislike
+        // if post was already disliked, decrement dislike
         else if (reviews[reviewIndex].dislikeIncremented == true) {
             reviews[reviewIndex].dislikeIncremented = false;
             reviews[reviewIndex].dislikes = 0;
         }
 
 
+        // otherwise increment the number of dislikes
         else {
             reviews[reviewIndex].dislikes = 1;
             reviews[reviewIndex].dislikeIncremented = true;
         }
 
-        // set the state here instead of waiting for it to do it in "updateJournalist()"
-        this.setState({ reviews: reviews });
-        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+         // Set the state instead of waiting for it to do it in "updateJournalist()" in searchbar clicked
+         this.setState({ reviews: reviews });
+
+         // update the reviews in the database
+         firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
 
 
     }
@@ -231,6 +248,7 @@ class JournalistPage extends Component {
     // posts new review to database and updates view
     submitReviewHandler = async () => {
 
+        // create a new review object
         const review = {
             rating: this.state.newReview.rating,
             headline: this.state.newReview.headline,
@@ -238,19 +256,19 @@ class JournalistPage extends Component {
             likes: this.state.newReview.likes,
             dislikes: this.state.newReview.dislikes,
             likeIncremented: this.state.newReview.likeIncremented,
-            dislikeIncremented: this.state.newReview.dislikeIncremented
+            dislikeIncremented: this.state.newReview.dislikeIncremented,
+            flags: this.state.newReview.flags
         }
 
         // fields cannot be empty
         if (review.rating != 0 && review.headline != "" && review.comment != "") {
+            
             // post new review to database
-            //await axios.post('/andersoncooper/' + link + '.json', review)
             await axios.post(this.state.journalistName.toLowerCase() + '/reviews.json', review)
                 .then(response => console.log(response))
                 .catch(error => console.log(error));
 
             // get data from database to update view
-            //axios.get('https://confianza-f74d4.firebaseio.com/andersoncooper/' + link + '.json')
             axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
                 .then(response => {
                     this.setState({ reviews: Object.values(response.data) });
@@ -259,13 +277,15 @@ class JournalistPage extends Component {
 
             // update the reviews to the one in state, so the keys are just the indices
             firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
-            // close the popup
+            
+            // close the modal
             this.closeReviewHandler();
         }
 
 
     }
 
+    // get all ratings and find the average
     calculateAverageRating = () => {
         let sum = 0;
         let counter = 0;
@@ -284,7 +304,7 @@ class JournalistPage extends Component {
     // retrieves arraylist of reviews from database as soon as component mounts
     componentDidMount = async () => {
 
-        let profile;
+        let profilePicLink;
         let exists;
 
         // only get data if journalist exists in database
@@ -296,26 +316,25 @@ class JournalistPage extends Component {
         await axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/link.json')
             .then(response => {
                 if (exists == true) {
-                    profile = response.data;
+                    profilePicLink = response.data;
                 }
             })
 
-        //if (profile != null) {
         // journalist name is initially input in homepage searchbar
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.props.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 // journalist exists and data is not null
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data), showError: false, link: profile })
+                    this.setState({ reviews: Object.values(response.data), showError: false, link: profilePicLink })
                     this.calculateAverageRating();
                 }
                 else {
                     // journalist exists and data is null
                     if (exists == true) {
-                        this.setState({ link: profile, showError: false, averageRating: 0 })
+                        this.setState({ link: profilePicLink, showError: false, averageRating: 0 })
                     }
 
-                    // journalist does not exist
+                    // journalist does not exist, show an error
                     else {
                         this.setState({ showError: true })
                     }
@@ -324,11 +343,12 @@ class JournalistPage extends Component {
             })
 
     }
-    //}
 
+
+    // change the journalist displayed
     updateJournalist = async () => {
         let exists;
-        let profile;
+        let profilePicLink;
 
         // only get data if journalist exists in database
         await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/exists.json')
@@ -339,22 +359,21 @@ class JournalistPage extends Component {
         await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/link.json')
             .then(response => {
                 if (exists == true) {
-                    profile = response.data;
+                    profilePicLink = response.data;
                 }
             })
 
-        //if (profile != null) {
         // journalist name is whatever the input of journalist searchbar is
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
                 if (response.data != null) {
-                    this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profile, showError: false })
+                    this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profilePicLink, showError: false })
                     this.calculateAverageRating();
                 }
                 else {
 
                     if (exists == true) {
-                        this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profile, showError: false, averageRating: 0 })
+                        this.setState({ reviews: null, nameDisplay: this.state.journalistName, link: profilePicLink, showError: false, averageRating: 0 })
                     }
 
 
@@ -408,7 +427,7 @@ class JournalistPage extends Component {
                     {this.state.showError ? "No results found for: " + this.state.failedNameSearch : null}
                 </div>
 
-                <JournalistIcon
+                <JournalistProfile
                     name={this.state.nameDisplay}
                     link={this.state.link} />
 
@@ -417,7 +436,8 @@ class JournalistPage extends Component {
                 <Reviews
                     reviews={this.state.reviews}
                     thumbsUpClick={this.updateLikes}
-                    thumbsDownClick={this.updateDislikes} />
+                    thumbsDownClick={this.updateDislikes}
+                    flagComment={this.flagComment} />
 
                 <button
                     className={styles['write-new-review-button']}
