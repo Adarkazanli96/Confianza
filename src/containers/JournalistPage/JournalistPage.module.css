@@ -1,3 +1,12 @@
+.content{
+    padding-bottom: 40px;
+}
+
+.container{
+    position: relative;
+    min-height: 100vh;
+}
+
 .write-new-review-button{
     display: block;
 
@@ -41,6 +50,7 @@
 
 .footer{
     position: absolute;
+    bottom: 0px;
     width: 100%;
     height: 40px;
     background-color:rgb(223, 219, 219);

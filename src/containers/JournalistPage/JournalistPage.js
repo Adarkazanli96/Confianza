@@ -400,7 +400,8 @@ class JournalistPage extends Component {
     console.log(reviews)*/
 
         return (
-            <div>
+            <div className = {styles['container']}>
+            <div className = {styles['content']}>
                 <Modal
                     show={this.state.writingReview}
                     modalClosed={this.closeReviewHandler}>
@@ -456,6 +457,7 @@ class JournalistPage extends Component {
                 {/*
                     reviews.map(review => <div>{review.comment}</div>)
                 }*/}
+                </div>
 
                 <span className={styles['footer']}>
                <span className={styles['footer-links']}><button className={styles['about-link']}>About</button>
