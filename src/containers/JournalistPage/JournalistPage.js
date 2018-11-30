@@ -457,6 +457,15 @@ class JournalistPage extends Component {
                     reviews.map(review => <div>{review.comment}</div>)
                 }*/}
 
+                <span className={styles['footer']}>
+               <span className={styles['footer-links']}><button className={styles['about-link']}>About</button>
+                        <button className={styles['add-journalist-link']}>Add Journalist</button>
+                        </span>
+                        
+
+                </span>
+                
+
             </div>
         );
     }

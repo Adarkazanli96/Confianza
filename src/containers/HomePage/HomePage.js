@@ -7,7 +7,7 @@ class HomePage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-     
+
         }
     }
 
@@ -30,21 +30,29 @@ class HomePage extends Component {
                         placeholder="Type a name"
                         value={this.props.nameValue}
                         onChange={this.props.nameChange}
-                        onKeyDown= {(event) => {if(event.keyCode==13){this.props.clicked()}}}
+                        onKeyDown={(event) => { if (event.keyCode == 13) { this.props.clicked() } }}
                     />
 
                     <a className={styles['search-btn']}
-                    onClick={(event) => {this.props.clicked();}}>
-                    
-                    <img className={styles['search-icon']} src={searchIcon} alt="S" />
+                        onClick={(event) => { this.props.clicked(); }}>
+
+                        <img className={styles['search-icon']} src={searchIcon} alt="S" />
                     </a>
                 </div>
 
-                <div className = {styles['results-not-found']}>
-                { this.props.showError ? "No results found for: " + this.props.failedNameSearch : null }
-                    </div>
+                <div className={styles['results-not-found']}>
+                    {this.props.showError ? "No results found for: " + this.props.failedNameSearch : null}
+                </div>
 
                 <div className={styles['quote']}>Get the truth and print it.</div>
+
+                <span className={styles['footer']}/>
+                <span className={styles['footer-links']}>
+                        <button className={styles['about-link']}>About</button>
+                        <button className={styles['add-journalist-link']}>Add Journalist</button>
+                    </span>
+
+
 
             </div>
         );
