@@ -236,11 +236,11 @@ class JournalistPage extends Component {
             reviews[reviewIndex].dislikeIncremented = true;
         }
 
-         // Set the state instead of waiting for it to do it in "updateJournalist()" in searchbar clicked
-         this.setState({ reviews: reviews });
+        // Set the state instead of waiting for it to do it in "updateJournalist()" in searchbar clicked
+        this.setState({ reviews: reviews });
 
-         // update the reviews in the database
-         firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+        // update the reviews in the database
+        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
 
 
     }
@@ -262,14 +262,14 @@ class JournalistPage extends Component {
 
         // fields cannot be empty
         if (review.rating != 0 && review.headline != "" && review.comment != "") {
-            
+
             // post new review to database
             await axios.post(this.state.journalistName.toLowerCase() + '/reviews.json', review)
                 .then(response => console.log(response))
                 .catch(error => console.log(error));
 
             // get data from database to update view
-            axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
+            await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
                 .then(response => {
                     this.setState({ reviews: Object.values(response.data) });
                     this.calculateAverageRating();
@@ -277,7 +277,7 @@ class JournalistPage extends Component {
 
             // update the reviews to the one in state, so the keys are just the indices
             firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
-            
+
             // close the modal
             this.closeReviewHandler();
         }
@@ -377,12 +377,20 @@ class JournalistPage extends Component {
                     }
 
 
-                    else {
-                        this.setState({ showError: true, failedNameSearch: this.state.journalistName })
-                    }
 
-                }
-            })
+                    else {
+                        //check if input is null, in that case do nothing
+                        if (this.state.journalistName == "") {
+                            this.setState({ showError: false })
+
+                        }
+                        //otherwise, show the attempted search failed error
+                        else {
+                            this.setState({ showError: true, failedNameSearch: this.state.journalistName })
+                        }
+
+                    }}
+                })
     }
     //}
 
