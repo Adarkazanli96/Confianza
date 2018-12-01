@@ -2,13 +2,23 @@ import React, { Component } from 'react'
 import styles from './HomePage.module.css'
 import Logo from '../../components/Logo/Logo'
 import searchIcon from '../../assets/images/search-icon.png'
+import LoginModal from '../../components/LoginModal/LoginModal'
 
 class HomePage extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            loggingin : false
 
         }
+    }
+
+    closeLoggingInHandler = () => {
+        this.setState({ loggingin: false })
+    }
+
+    loggingInHandler = () => {
+        this.setState({loggingin: true})
     }
 
     render() {
@@ -16,8 +26,14 @@ class HomePage extends Component {
         return (
 
             <div>
+
+                <LoginModal
+                    show={this.state.loggingin}
+                    modalClosed={this.closeLoggingInHandler}>
+                </LoginModal>
+
                 <span className={styles['login-and-signup']}>
-                    <button className={styles['login']}>Log In</button>
+                    <button className={styles['login'] } onClick = {this.loggingInHandler}>Log In</button>
                     <button className={styles['signup']}>Sign Up</button>
                 </span>
 
@@ -48,7 +64,7 @@ class HomePage extends Component {
 
                 <span className={styles['footer']} />
                 <span className={styles['footer-links']}>
-                    <button className={styles['about-link']} onClick = {this.props.about}>About</button>
+                    <button className={styles['about-link']} onClick={this.props.about}>About</button>
                     <button className={styles['add-journalist-link']}>Add Journalist</button>
                 </span>
 
