@@ -3,6 +3,7 @@ import axios from './axios-orders'
 import Aux from './hoc/Aux/Aux'
 import JournalistPage from './containers/JournalistPage/JournalistPage'
 import HomePage from './containers/HomePage/HomePage'
+import AboutPage from './containers/AboutPage/AboutPage'
 
 class App extends Component {
 
@@ -69,6 +70,18 @@ class App extends Component {
     })
   }
 
+  switchToAboutPageHandler = () =>{
+    this.setState({
+      homePage: false,
+      journalistPage: false,
+      aboutPage: true,
+      homePageNameSearched: "",
+      journalistPageNameSearched: "",
+      homePageFailedNameSearch: "",
+      showHomePageSearchError: false
+    })
+  }
+
   render() {
 
     let page
@@ -81,6 +94,7 @@ class App extends Component {
         nameValue={this.state.homePageNameSearched}
         failedNameSearch={this.state.homePageFailedNameSearch}
         showError={this.state.showHomePageSearchError}
+        about = {this.switchToAboutPageHandler}
       />
     }
 
@@ -88,7 +102,13 @@ class App extends Component {
     else if (this.state.journalistPage) {
       page = <JournalistPage
         journalistName={this.state.homePageNameSearched}
-        back={this.backToHomeHandler} />
+        home={this.backToHomeHandler}
+        about={this.switchToAboutPageHandler} />
+    }
+
+    else if(this.state.aboutPage){
+      page = <AboutPage
+      home = {this.backToHomeHandler}/>
     }
 
 

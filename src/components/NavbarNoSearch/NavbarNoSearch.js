@@ -1,17 +1,12 @@
 import React from 'react'
 import Logo from '../Logo/Logo'
 import SearchBar from '../SearchBar/SearchBar'
-import styles from './Navbar.module.css'
+import styles from './NavbarNoSearch.module.css'
 
 const navbar = (props) => (
     <header className={styles['navbar']}>
         <Logo style='small' />
 
-        <SearchBar
-            nameSearchBarValue={props.nameSearchBarValue}
-            nameSearchBarChange={props.nameSearchBarChange}
-            searchBarClicked={props.searchBarClicked}
-        />
 
         <span className={styles['buttons']}>
         <button className={styles['home']} onClick = {props.home}>Home</button>

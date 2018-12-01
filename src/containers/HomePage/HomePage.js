@@ -46,12 +46,11 @@ class HomePage extends Component {
 
                 <div className={styles['quote']}>Get the truth and print it.</div>
 
-                <span className={styles['footer']}/>
+                <span className={styles['footer']} />
                 <span className={styles['footer-links']}>
-                        <button className={styles['about-link']}>About</button>
-                        <button className={styles['add-journalist-link']}>Add Journalist</button>
-                    </span>
-
+                    <button className={styles['about-link']} onClick = {this.props.about}>About</button>
+                    <button className={styles['add-journalist-link']}>Add Journalist</button>
+                </span>
 
 
             </div>

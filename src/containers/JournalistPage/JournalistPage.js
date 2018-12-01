@@ -389,8 +389,9 @@ class JournalistPage extends Component {
                             this.setState({ showError: true, failedNameSearch: this.state.journalistName })
                         }
 
-                    }}
-                })
+                    }
+                }
+            })
     }
     //}
 
@@ -400,73 +401,74 @@ class JournalistPage extends Component {
     console.log(reviews)*/
 
         return (
-            <div className = {styles['container']}>
-            <div className = {styles['content']}>
-                <Modal
-                    show={this.state.writingReview}
-                    modalClosed={this.closeReviewHandler}>
-                    <NewReview
-                        closeReview={this.closeReviewHandler}
-                        reviewSubmitted={this.submitReviewHandler}
-                        headlineChange={(event) => this.setHeadlineHandler(event)}
-                        headlineValue={this.state.newReview.headline}
-                        commentChange={(event) => this.setCommentHandler(event)}
-                        commentValue={this.state.newReview.comment}>
-                        <StarRatingComponent
-                            className={styles['star']}
-                            name="rate"
-                            starCount={5}
-                            value={this.state.newReview.rating}
-                            onStarClick={this.onStarClick.bind(this)}
-                            onStarHover={this.onStarHover.bind(this)}
-                            onStarHoverOut={this.onStarHoverOut.bind(this)}
-                            emptyStarColor={"#808080"}
-                            renderStarIcon={() => <span>⭑</span>}
-                        />
+            <div className={styles['container']}>
+                <div className={styles['content']}>
+                    <Modal
+                        show={this.state.writingReview}
+                        modalClosed={this.closeReviewHandler}>
+                        <NewReview
+                            closeReview={this.closeReviewHandler}
+                            reviewSubmitted={this.submitReviewHandler}
+                            headlineChange={(event) => this.setHeadlineHandler(event)}
+                            headlineValue={this.state.newReview.headline}
+                            commentChange={(event) => this.setCommentHandler(event)}
+                            commentValue={this.state.newReview.comment}>
+                            <StarRatingComponent
+                                className={styles['star']}
+                                name="rate"
+                                starCount={5}
+                                value={this.state.newReview.rating}
+                                onStarClick={this.onStarClick.bind(this)}
+                                onStarHover={this.onStarHover.bind(this)}
+                                onStarHoverOut={this.onStarHoverOut.bind(this)}
+                                emptyStarColor={"#808080"}
+                                renderStarIcon={() => <span>⭑</span>}
+                            />
 
-                    </NewReview>
-                </Modal>
-                <Navbar
-                    back={this.props.back}
-                    nameSearchBarValue={this.state.journalistName}
-                    nameSearchBarChange={(event) => this.setNameHandler(event)}
-                    searchBarClicked={this.updateJournalist}
-                />
-                <div className={styles['results-not-found']}>
-                    {this.state.showError ? "No results found for: " + this.state.failedNameSearch : null}
-                </div>
+                        </NewReview>
+                    </Modal>
+                    <Navbar
+                        home={this.props.home}
+                        nameSearchBarValue={this.state.journalistName}
+                        nameSearchBarChange={(event) => this.setNameHandler(event)}
+                        searchBarClicked={this.updateJournalist}
+                    />
+                    <div className={styles['results-not-found']}>
+                        {this.state.showError ? "No results found for: " + this.state.failedNameSearch : null}
+                    </div>
 
-                <JournalistProfile
-                    name={this.state.nameDisplay}
-                    link={this.state.link} />
+                    <JournalistProfile
+                        name={this.state.nameDisplay}
+                        link={this.state.link} />
 
-                <Rating rating={this.state.averageRating} />
+                    <Rating rating={this.state.averageRating} />
 
-                <Reviews
-                    reviews={this.state.reviews}
-                    thumbsUpClick={this.updateLikes}
-                    thumbsDownClick={this.updateDislikes}
-                    flagComment={this.flagComment} />
+                    <Reviews
+                        reviews={this.state.reviews}
+                        thumbsUpClick={this.updateLikes}
+                        thumbsDownClick={this.updateDislikes}
+                        flagComment={this.flagComment} />
 
-                <button
-                    className={styles['write-new-review-button']}
-                    onClick={this.writeReviewHandler}>
-                    WRITE REVIEW
+                    <button
+                        className={styles['write-new-review-button']}
+                        onClick={this.writeReviewHandler}>
+                        WRITE REVIEW
                 </button>
 
-                {/*
+                    {/*
                     reviews.map(review => <div>{review.comment}</div>)
                 }*/}
                 </div>
 
                 <span className={styles['footer']}>
-               <span className={styles['footer-links']}><button className={styles['about-link']}>About</button>
+                    <span className={styles['footer-links']}>
+                        <button className={styles['about-link'] } onClick = {this.props.about}>About</button>
                         <button className={styles['add-journalist-link']}>Add Journalist</button>
-                        </span>
-                        
+                    </span>
+
 
                 </span>
-                
+
 
             </div>
         );
