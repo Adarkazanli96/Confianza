@@ -8,6 +8,9 @@ import Navbar from '../../components/Navbar/Navbar'
 import styles from './JournalistPage.module.css'
 import Modal from '../../components/Modal/Modal'
 import NewReview from '../../components/NewReview/NewReview'
+import LoginModal from '../../components/LoginModal/LoginModal'
+import Login from '../../components/Login/Login'
+import Signup from '../../components/Signup/Signup'
 import StarRatingComponent from 'react-star-rating-component';
 import axios from '../../axios-orders'
 import * as firebase from 'firebase'
@@ -49,7 +52,10 @@ class JournalistPage extends Component {
 
             failedNameSearch: "",
 
-            showError: false
+            showError: false,
+
+            loggingin: false,
+            signingin: false
 
         }
 
@@ -67,6 +73,19 @@ class JournalistPage extends Component {
         }
 
 
+    }
+
+    closeModalHandler = () => {
+        this.setState({ loggingin: false })
+        this.setState({ signingin: false })
+    }
+
+    loggingInHandler = () => {
+        this.setState({ loggingin: true })
+    }
+
+    signingInHandler = () => {
+        this.setState({ signingin: true })
     }
 
     onStarClick(nextValue, prevValue, name) {
@@ -400,9 +419,22 @@ class JournalistPage extends Component {
         /*const { reviews } = this.state
     console.log(reviews)*/
 
+        let loginOrSignup = null
+        if (this.state.loggingin == true) {
+            loginOrSignup = <Login />
+        }
+        if (this.state.signingin == true) {
+            loginOrSignup = <Signup />
+        }
+
         return (
             <div className={styles['container']}>
                 <div className={styles['content']}>
+                <LoginModal
+                    show={this.state.loggingin || this.state.signingin}
+                    modalClosed={this.closeModalHandler}>
+                    {loginOrSignup}
+                </LoginModal>
                     <Modal
                         show={this.state.writingReview}
                         modalClosed={this.closeReviewHandler}>
@@ -432,6 +464,8 @@ class JournalistPage extends Component {
                         nameSearchBarValue={this.state.journalistName}
                         nameSearchBarChange={(event) => this.setNameHandler(event)}
                         searchBarClicked={this.updateJournalist}
+                        login = {this.loggingInHandler}
+                        signup = {this.signingInHandler}
                     />
                     <div className={styles['results-not-found']}>
                         {this.state.showError ? "No results found for: " + this.state.failedNameSearch : null}
@@ -462,7 +496,7 @@ class JournalistPage extends Component {
 
                 <span className={styles['footer']}>
                     <span className={styles['footer-links']}>
-                        <button className={styles['about-link'] } onClick = {this.props.about}>About</button>
+                        <button className={styles['about-link']} onClick={this.props.about}>About</button>
                         <button className={styles['add-journalist-link']}>Add Journalist</button>
                     </span>
 

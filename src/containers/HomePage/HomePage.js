@@ -3,38 +3,54 @@ import styles from './HomePage.module.css'
 import Logo from '../../components/Logo/Logo'
 import searchIcon from '../../assets/images/search-icon.png'
 import LoginModal from '../../components/LoginModal/LoginModal'
+import Login from '../../components/Login/Login'
+import Signup from '../../components/Signup/Signup'
 
 class HomePage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            loggingin : false
-
+            loggingin : false,
+            signingin: false
         }
     }
 
-    closeLoggingInHandler = () => {
+    closeModalHandler = () => {
         this.setState({ loggingin: false })
+        this.setState({ signingin: false })
     }
 
     loggingInHandler = () => {
         this.setState({loggingin: true})
     }
 
+    signingInHandler = () => {
+        this.setState({signingin: true})
+    }
+
     render() {
+
+        let loginOrSignup = null
+        if(this.state.loggingin == true){
+            loginOrSignup = <Login/>
+        }
+        if(this.state.signingin == true){
+            loginOrSignup = <Signup/>
+        }
 
         return (
 
             <div>
 
                 <LoginModal
-                    show={this.state.loggingin}
-                    modalClosed={this.closeLoggingInHandler}>
+                    show={this.state.loggingin || this.state.signingin}
+                    modalClosed={this.closeModalHandler}>
+                    {loginOrSignup}
                 </LoginModal>
 
                 <span className={styles['login-and-signup']}>
                     <button className={styles['login'] } onClick = {this.loggingInHandler}>Log In</button>
-                    <button className={styles['signup']}>Sign Up</button>
+                    <button className={styles['signup']} onClick = {this.signingInHandler}>Sign Up</button>
                 </span>
 
                 <Logo style='large' />
