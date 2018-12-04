@@ -4,6 +4,7 @@ import Aux from './hoc/Aux/Aux'
 import JournalistPage from './containers/JournalistPage/JournalistPage'
 import HomePage from './containers/HomePage/HomePage'
 import AboutPage from './containers/AboutPage/AboutPage'
+import ContactUsPage from './containers/ContactUsPage/ContactUsPage'
 
 class App extends Component {
 
@@ -13,6 +14,7 @@ class App extends Component {
       homePage: true,
       journalistPage: false,
       aboutPage: false,
+      contactUsPage: false,
       homePageNameSearched: "",
       journalistPageNameSearched: "",
       homePageFailedNameSearch: "",
@@ -33,7 +35,7 @@ class App extends Component {
 
     // if the journalist exists, set the homepage to false and journalist page to true
     if (exists == true) {
-      this.setState({ homePage: false, journalistPage: true, aboutPage: false })
+      this.setState({ homePage: false, journalistPage: true, contactUsPage: false, aboutPage: false })
     }
 
     // journalist does not exist
@@ -63,6 +65,7 @@ class App extends Component {
       homePage: true,
       journalistPage: false,
       aboutPage: false,
+      contactUsPage: false,
       homePageNameSearched: "",
       journalistPageNameSearched: "",
       homePageFailedNameSearch: "",
@@ -75,6 +78,20 @@ class App extends Component {
       homePage: false,
       journalistPage: false,
       aboutPage: true,
+      contactUsPage: false,
+      homePageNameSearched: "",
+      journalistPageNameSearched: "",
+      homePageFailedNameSearch: "",
+      showHomePageSearchError: false
+    })
+  }
+
+  switchToContactUsPageHandler = () =>{
+    this.setState({
+      homePage: false,
+      journalistPage: false,
+      aboutPage: false,
+      contactUsPage: true,
       homePageNameSearched: "",
       journalistPageNameSearched: "",
       homePageFailedNameSearch: "",
@@ -95,6 +112,7 @@ class App extends Component {
         failedNameSearch={this.state.homePageFailedNameSearch}
         showError={this.state.showHomePageSearchError}
         about = {this.switchToAboutPageHandler}
+        contact ={this.switchToContactUsPageHandler}
       />
     }
 
@@ -103,12 +121,20 @@ class App extends Component {
       page = <JournalistPage
         journalistName={this.state.homePageNameSearched}
         home={this.backToHomeHandler}
-        about={this.switchToAboutPageHandler} />
+        about={this.switchToAboutPageHandler}
+        contact ={this.switchToContactUsPageHandler} />
     }
 
     else if(this.state.aboutPage){
       page = <AboutPage
-      home = {this.backToHomeHandler}/>
+      home = {this.backToHomeHandler}
+      contact ={this.switchToContactUsPageHandler}/>
+    }
+
+    else if(this.state.contactUsPage){
+      page = <ContactUsPage
+      home = {this.backToHomeHandler}
+      about ={this.switchToAboutPageHandler}/>
     }
 
 

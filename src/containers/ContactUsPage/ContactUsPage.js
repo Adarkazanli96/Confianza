@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Navbar from '../../components/NavbarNoSearch/NavbarNoSearch'
-import styles from './AboutPage.module.css'
+import styles from './ContactUsPage.module.css'
 
-class AboutPage extends Component {
+class ContactUsPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -17,8 +17,8 @@ class AboutPage extends Component {
                     <Navbar
                         home={this.props.home}
                     />
-
-                    <div>about page</div>
+                    
+                    <div>contact us page</div>
 
                     <span className={styles['footer']}>
                         <span className={styles['footer-links']}>
@@ -36,4 +36,4 @@ class AboutPage extends Component {
     }
 }
 
-export default AboutPage;
+export default ContactUsPage;

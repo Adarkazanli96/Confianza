@@ -126,12 +126,16 @@
     background-color: transparent;
 }
 
-.add-journalist-link{
+.contact-us-link{
     margin-left: 20px;
     color: #5D6065;
     border: none;
     font-size: 9pt;
     background-color: transparent;
+}
+
+.contact-us-link:hover{
+    text-decoration: underline;
 }
 
 .about-link:hover{

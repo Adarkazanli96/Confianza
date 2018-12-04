@@ -81,7 +81,7 @@ class HomePage extends Component {
                 <span className={styles['footer']} />
                 <span className={styles['footer-links']}>
                     <button className={styles['about-link']} onClick={this.props.about}>About</button>
-                    <button className={styles['add-journalist-link']}>Contact Us</button>
+                    <button className={styles['contact-us-link']} onClick = {this.props.contact}>Contact Us</button>
                 </span>
 
 
