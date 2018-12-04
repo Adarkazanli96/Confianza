@@ -6,7 +6,7 @@ const login = (props) => {
     return (
         <Aux>
 
-            <h3 className={styles['login-text']}>Login</h3>
+            <h3 className={styles['login-text']}>Log In</h3>
             <div className={styles['username-text']}>Username</div>
             <input type="text" placeholder="Enter Username" className={styles['username-input']} />
             <div className={styles['password-text']}>Password</div>
