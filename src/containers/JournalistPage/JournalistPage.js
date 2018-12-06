@@ -459,6 +459,11 @@ class JournalistPage extends Component {
 
                         </NewReview>
                     </Modal>
+                    <SearchBar
+            nameSearchBarValue={this.nameSearchBarValue}
+            nameSearchBarChange={this.nameSearchBarChange}
+            searchBarClicked={this.searchBarClicked}
+        />
                     <Navbar
                         home={this.props.home}
                         nameSearchBarValue={this.state.journalistName}
@@ -466,7 +471,13 @@ class JournalistPage extends Component {
                         searchBarClicked={this.updateJournalist}
                         login = {this.loggingInHandler}
                         signup = {this.signingInHandler}
-                    />
+                    >
+                    <SearchBar
+            nameSearchBarValue={this.nameSearchBarValue}
+            nameSearchBarChange={this.nameSearchBarChange}
+            searchBarClicked={this.searchBarClicked}
+        /></Navbar>
+        
                     <div className={styles['results-not-found']}>
                         {this.state.showError ? "No results found for: " + this.state.failedNameSearch : null}
                     </div>
