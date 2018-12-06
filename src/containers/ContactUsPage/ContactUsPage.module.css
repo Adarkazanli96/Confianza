@@ -38,6 +38,15 @@ font-size: 9pt;
 background-color: transparent;
 }
 
+.contact{
+    margin-top: 3px;
+    width:70%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .contact-us-link:hover{
     text-decoration: underline;
 }

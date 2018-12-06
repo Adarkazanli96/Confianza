@@ -4,6 +4,7 @@ import styles from './ContactUsPage.module.css'
 import Login from '../../components/Login/Login'
 import Signup from '../../components/Signup/Signup'
 import LoginModal from '../../components/LoginModal/LoginModal'
+import contact from '../../assets/images/contact.jpg'
 
 class ContactUsPage extends Component {
     constructor(props) {
@@ -52,7 +53,7 @@ class ContactUsPage extends Component {
                         signup = {this.signingInHandler}
                     />
 
-                    <div>contact us page</div>
+                    <img className={styles['contact']} src={contact}/>
 
                     <span className={styles['footer']}>
                         <span className={styles['footer-links']}>
