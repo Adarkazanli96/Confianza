@@ -54,7 +54,14 @@ class ContactUsPage extends Component {
                     />
 
                     <img className={styles['contact']} src={contact}/>
-
+                    <div className = {styles['contact-link-container']}>
+                    <a href="mailto:confianzanews@gmail.com?Subject=Customer%20Support" target="_top" className = {styles['contact-link']}>Contact Support</a>
+                    </div>
+                    
+                    
+                    </div>
+                    
+                    
                     <span className={styles['footer']}>
                         <span className={styles['footer-links']}>
                             <button className={styles['about-link']} onClick={this.props.about}>About</button>
@@ -65,7 +72,7 @@ class ContactUsPage extends Component {
                     </span>
 
 
-                </div>
+                
             </div>
         );
     }

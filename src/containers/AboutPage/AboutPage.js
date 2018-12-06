@@ -58,6 +58,7 @@ class AboutPage extends Component {
 
                    <img className={styles['about']} src={about}/>
 
+</div>
                     <span className={styles['footer']}>
                         <span className={styles['footer-links']}>
                             <button className={styles['about-link']} onClick={this.props.about}>About</button>
@@ -68,7 +69,7 @@ class AboutPage extends Component {
                     </span>
 
 
-                </div>
+                
             </div>
         );
     }
