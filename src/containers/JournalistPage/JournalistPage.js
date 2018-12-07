@@ -30,8 +30,8 @@ class JournalistPage extends Component {
                 rating: 0,
                 likes: 0,
                 dislikes: 0,
-                likeIncremented: false,
-                dislikeIncremented: false,
+                liked: false,
+                disliked: false,
                 flags: 0
             },
 
@@ -200,24 +200,24 @@ class JournalistPage extends Component {
         let reviews = [...this.state.reviews];
 
         // if post was already disliked, decrement dislike and increment like
-        if (reviews[reviewIndex].dislikeIncremented == true) {
-            reviews[reviewIndex].dislikeIncremented = false;
+        if (reviews[reviewIndex].disliked == true) {
+            reviews[reviewIndex].disliked = false;
             reviews[reviewIndex].dislikes = 0;
 
             reviews[reviewIndex].likes = 1;
-            reviews[reviewIndex].likeIncremented = true;
+            reviews[reviewIndex].liked = true;
         }
 
         // if post was already liked, decrement like
-        else if (reviews[reviewIndex].likeIncremented == true) {
-            reviews[reviewIndex].likeIncremented = false;
+        else if (reviews[reviewIndex].liked == true) {
+            reviews[reviewIndex].liked = false;
             reviews[reviewIndex].likes = 0;
         }
 
         // otherwise increment number of likes
         else {
             reviews[reviewIndex].likes = 1;
-            reviews[reviewIndex].likeIncremented = true;
+            reviews[reviewIndex].liked = true;
         }
 
         // Set the state instead of waiting for it to do it in "updateJournalist()" in searchbar clicked
@@ -234,17 +234,17 @@ class JournalistPage extends Component {
         let reviews = [...this.state.reviews];
 
         // if post was already liked, decrement like and increment dislike
-        if (reviews[reviewIndex].likeIncremented == true) {
-            reviews[reviewIndex].likeIncremented = false;
+        if (reviews[reviewIndex].liked == true) {
+            reviews[reviewIndex].liked = false;
             reviews[reviewIndex].likes = 0;
 
             reviews[reviewIndex].dislikes = 1;
-            reviews[reviewIndex].dislikeIncremented = true;
+            reviews[reviewIndex].disliked = true;
         }
 
         // if post was already disliked, decrement dislike
-        else if (reviews[reviewIndex].dislikeIncremented == true) {
-            reviews[reviewIndex].dislikeIncremented = false;
+        else if (reviews[reviewIndex].disliked == true) {
+            reviews[reviewIndex].disliked = false;
             reviews[reviewIndex].dislikes = 0;
         }
 
@@ -252,7 +252,7 @@ class JournalistPage extends Component {
         // otherwise increment the number of dislikes
         else {
             reviews[reviewIndex].dislikes = 1;
-            reviews[reviewIndex].dislikeIncremented = true;
+            reviews[reviewIndex].disliked = true;
         }
 
         // Set the state instead of waiting for it to do it in "updateJournalist()" in searchbar clicked
@@ -274,8 +274,8 @@ class JournalistPage extends Component {
             comment: this.state.newReview.comment,
             likes: this.state.newReview.likes,
             dislikes: this.state.newReview.dislikes,
-            likeIncremented: this.state.newReview.likeIncremented,
-            dislikeIncremented: this.state.newReview.dislikeIncremented,
+            liked: this.state.newReview.liked,
+            disliked: this.state.newReview.disliked,
             flags: this.state.newReview.flags
         }
 
