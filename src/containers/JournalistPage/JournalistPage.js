@@ -190,7 +190,7 @@ class JournalistPage extends Component {
     flagComment = (reviewIndex) => {
         let reviews = [...this.state.reviews];
         reviews[reviewIndex].flags++;
-        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+        firebase.database().ref(this.state.nameDisplay.toLowerCase()).update({ reviews: this.state.reviews })
         alert("Comment Flagged!");
     }
 
@@ -224,7 +224,7 @@ class JournalistPage extends Component {
         this.setState({ reviews: reviews });
 
         // update the reviews in the database
-        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+        firebase.database().ref(this.state.nameDisplay.toLowerCase()).update({ reviews: this.state.reviews })
 
     }
 
@@ -259,7 +259,7 @@ class JournalistPage extends Component {
         this.setState({ reviews: reviews });
 
         // update the reviews in the database
-        firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+        firebase.database().ref(this.state.nameDisplay.toLowerCase()).update({ reviews: this.state.reviews })
 
 
     }
@@ -283,19 +283,19 @@ class JournalistPage extends Component {
         if (review.rating != 0 && review.headline != "" && review.comment != "") {
 
             // post new review to database
-            await axios.post(this.state.journalistName.toLowerCase() + '/reviews.json', review)
+            await axios.post(this.state.nameDisplay.toLowerCase() + '/reviews.json', review)
                 .then(response => console.log(response))
                 .catch(error => console.log(error));
 
             // get data from database to update view
-            await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
+            await axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.nameDisplay.toLowerCase() + '/reviews.json')
                 .then(response => {
                     this.setState({ reviews: Object.values(response.data) });
                     this.calculateAverageRating();
                 })
 
             // update the reviews to the one in state, so the keys are just the indices
-            firebase.database().ref(this.state.journalistName.toLowerCase()).update({ reviews: this.state.reviews })
+            firebase.database().ref(this.state.nameDisplay.toLowerCase()).update({ reviews: this.state.reviews })
 
             // close the modal
             this.closeReviewHandler();
@@ -385,7 +385,7 @@ class JournalistPage extends Component {
         // journalist name is whatever the input of journalist searchbar is
         axios.get('https://confianza-f74d4.firebaseio.com/' + this.state.journalistName.toLowerCase() + '/reviews.json')
             .then(response => {
-                if (response.data != null) {
+                if (response.data != null && exists == true) {
                     this.setState({ reviews: Object.values(response.data), nameDisplay: this.state.journalistName, link: profilePicLink, showError: false })
                     this.calculateAverageRating();
                 }
@@ -472,11 +472,7 @@ class JournalistPage extends Component {
                         login = {this.loggingInHandler}
                         signup = {this.signingInHandler}
                     >
-                    <SearchBar
-            nameSearchBarValue={this.nameSearchBarValue}
-            nameSearchBarChange={this.nameSearchBarChange}
-            searchBarClicked={this.searchBarClicked}
-        /></Navbar>
+                    </Navbar>
         
                     <div className={styles['results-not-found']}>
                         {this.state.showError ? "No results found for: " + this.state.failedNameSearch : null}
