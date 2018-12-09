@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from './axios-orders'
-import Aux from './hoc/Aux/Aux'
+import ReactAux from './hoc/ReactAux/ReactAux'
 import JournalistPage from './containers/JournalistPage/JournalistPage'
 import HomePage from './containers/HomePage/HomePage'
 import AboutPage from './containers/AboutPage/AboutPage'
@@ -141,9 +141,9 @@ class App extends Component {
 
     // display the proper page
     return (
-      <Aux>
+      <ReactAux>
         {page}
-      </Aux>
+      </ReactAux>
     );
   }
 }

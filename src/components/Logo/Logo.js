@@ -1,13 +1,13 @@
 import React from 'react'
 import confianzaLogo from '../../assets/images/homepage-logo.png'
 import styles from './Logo.module.css'
-import Aux from '../../hoc/Aux/Aux'
+import ReactAux from '../../hoc/ReactAux/ReactAux'
 
 const logo = (props) => {
     return (
-        <Aux>
+        <ReactAux>
             <img className = {styles[props.style]} src={confianzaLogo} alt="C" onClick = {props.back}/>
-        </Aux>
+        </ReactAux>
     );
 }
 

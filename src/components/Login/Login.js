@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux/Aux'
+import ReactAux from '../../hoc/ReactAux/ReactAux'
 import styles from './Login.module.css'
 
 const login = (props) => {
     return (
-        <Aux>
+        <ReactAux>
 
             <h3 className={styles['login-text']}>Log In</h3>
             <div className={styles['username-text']}>Username</div>
@@ -24,7 +24,7 @@ const login = (props) => {
                 </span>
             </div>
 
-        </Aux>
+        </ReactAux>
     );
 }
 

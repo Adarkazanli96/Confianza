@@ -1,10 +1,10 @@
 import React from 'react';
 import Backdrop from '../Backdrop/Backdrop'
-import Aux from '../../hoc/Aux/Aux'
+import ReactAux from '../../hoc/ReactAux/ReactAux'
 import styles from './LoginModal.module.css'
 
 const modal = (props) => (
-<Aux>
+<ReactAux>
     <Backdrop show = {props.show} clicked = {props.modalClosed}/>
     <div className={styles['modal']}
         style={{
@@ -12,7 +12,7 @@ const modal = (props) => (
             opacity: props.show ? '1' : '0'
         }}>{props.children}
     </div>
-    </Aux>
+    </ReactAux>
 );
 
 export default modal;

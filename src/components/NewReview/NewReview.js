@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux/Aux'
+import ReactAux from '../../hoc/ReactAux/ReactAux'
 import zero from '../../assets/images/stars/0.png'
 import styles from './NewReview.module.css'
 import StarRatingComponent from 'react-star-rating-component';
 
 const newReview = (props) => {
     return (
-        <Aux>
+        <ReactAux>
             <button className={styles['close-window-button']} onClick={props.closeReview}>X</button>
             <h3 className={styles['header']}>Create Review</h3>
             <p className = {styles['overall-rating-text']}>Overall rating</p>
@@ -39,7 +39,7 @@ const newReview = (props) => {
 
             >Submit
             </button>
-        </Aux>
+        </ReactAux>
     );
 }
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux/Aux'
+import ReactAux from '../../hoc/ReactAux/ReactAux'
 import styles from './Signup.module.css'
 
 const signup = (props) => {
     return (
-        <Aux>
+        <ReactAux>
             <h3 className={styles['signup-text']}>Sign Up</h3>
             <p>Please fill in this form to create an account.</p>
             <hr/>
@@ -24,7 +24,7 @@ const signup = (props) => {
                 <button type="button" className={styles["cancelbtn"]}>Cancel</button>
                 <button type="button" className={styles["signupbtn"]}>Sign Up</button>
             </div>
-        </Aux>
+        </ReactAux>
     );
 }
 
